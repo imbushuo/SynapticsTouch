@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
+MinimumVisualStudioVersion = 12.0
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SynapticsTouch", "SynapticsTouch.vcxproj", "{1E12CAAD-D041-4C21-B673-6FF831FC3D70}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|ARM.ActiveCfg = Debug|ARM
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|ARM.Build.0 = Debug|ARM
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|ARM.Deploy.0 = Debug|ARM
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|ARM64.Build.0 = Debug|ARM64
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|Win32.Build.0 = Debug|Win32
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|x64.ActiveCfg = Debug|x64
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Debug|x64.Build.0 = Debug|x64
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|ARM.ActiveCfg = Release|ARM
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|ARM.Build.0 = Release|ARM
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|ARM.Deploy.0 = Release|ARM
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|ARM64.ActiveCfg = Release|ARM64
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|ARM64.Build.0 = Release|ARM64
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|ARM64.Deploy.0 = Release|ARM64
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|Win32.ActiveCfg = Release|Win32
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|Win32.Build.0 = Release|Win32
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|x64.ActiveCfg = Release|x64
+		{1E12CAAD-D041-4C21-B673-6FF831FC3D70}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {740AA028-CDAA-4AC0-95C6-3561ECF2000A}
+	EndGlobalSection
+EndGlobal
