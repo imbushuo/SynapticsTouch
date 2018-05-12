@@ -56,7 +56,7 @@
 #define RMI4_F54_TEST_REPORTING           0x54
 
 #define RMI4_MAX_FUNCTIONS                10
-#define RMI4_MAX_TOUCHES                  10
+#define RMI4_MAX_TOUCHES                  32
 
 typedef struct _RMI4_FUNCTION_DESCRIPTOR
 {
@@ -254,19 +254,8 @@ typedef struct _RMI4_F11_CTRL_REGISTERS_LOGICAL
 
 typedef struct _RMI4_F11_DATA_POSITION
 {
-    BYTE XPosHi;
-    BYTE YPosHi;
-    struct
-    {
-        BYTE XPosLo : 4;
-        BYTE YPosLo : 4;
-    };
-    struct
-    {
-        BYTE XWidth : 4;
-        BYTE YWidth : 4;
-    };
-    BYTE ZAmplitude;
+	int X;
+	int Y;
 } RMI4_F11_DATA_POSITION;
 
 typedef struct _RMI4_F11_DATA_REGISTERS_STATUS_BLOCK
@@ -522,9 +511,7 @@ typedef struct _RMI4_CONTROLLER_CONTEXT
 	RMI_REGISTER_DESCRIPTOR ControlRegDesc;
 	RMI_REGISTER_DESCRIPTOR DataRegDesc;
 	size_t PacketSize;
-	BYTE *DataPacket;
 
-	PRMI_REGISTER_DESC_ITEM Data1;
 	USHORT Data1Offset;
 	BYTE MaxFingers;
 

@@ -179,6 +179,7 @@ Return Value:
 
 	BYTE fingerStatus[RMI4_MAX_TOUCHES] = { 0 };
 	BYTE* data1;
+	BYTE* controllerData;
 
     controller = (RMI4_CONTROLLER_CONTEXT*) ControllerContext;
 
@@ -216,13 +217,25 @@ Return Value:
         goto exit;
     }
 
+	controllerData = ExAllocatePoolWithTag(
+		NonPagedPoolNx,
+		controller->PacketSize,
+		TOUCH_POOL_TAG_F12
+	);
+
+	if (controllerData == NULL)
+	{
+		status = STATUS_INSUFFICIENT_RESOURCES;
+		goto exit;
+	}
+
 	// 
 	// Packets we need is determined by context
 	//
 	status = SpbReadDataSynchronously(
 		SpbContext,
 		controller->Descriptors[index].DataBase,
-		&controller->DataPacket,
+		controllerData,
 		(ULONG) controller->PacketSize
 	);
 
@@ -234,18 +247,22 @@ Return Value:
 			"Error reading finger status data - %!STATUS!",
 			status);
 
-		goto exit;
+		goto free_buffer;
 	}
 
-	data1 = &controller->DataPacket[controller->Data1Offset];
-
+	data1 = &controllerData[controller->Data1Offset];
 	if (data1 != NULL)
 	{
-		objects = controller->Data1->NumSubPackets;
+		objects = controller->MaxFingers;
 
-		if ((controller->Data1->NumSubPackets * F12_DATA1_BYTES_PER_OBJ) > controller->PacketSize)
+		if ((controller->MaxFingers * F12_DATA1_BYTES_PER_OBJ) > controller->PacketSize)
 		{
 			objects = (int) controller->PacketSize / F12_DATA1_BYTES_PER_OBJ;
+		}
+		
+		if (objects > RMI4_MAX_TOUCHES)
+		{
+			objects = RMI4_MAX_TOUCHES;
 		}
 
 		for (i = 0; i < objects; i++) 
@@ -254,25 +271,24 @@ Return Value:
 			{
 			case RMI_F12_OBJECT_FINGER:
 			case RMI_F12_OBJECT_STYLUS:
-				fingerStatus[i] = RMI_2D_OBJECT_FINGER;
+				fingerStatus[i] = RMI4_FINGER_STATE_PRESENT_WITH_ACCURATE_POS;
 				break;
 			default:
-				fingerStatus[i] = RMI_2D_OBJECT_NONE;
+				fingerStatus[i] = RMI4_FINGER_STATE_NOT_PRESENT;
 				break;
 			}
 
-			Data->Finger[i].XWidth = 16;
-			Data->Finger[i].XPosLo = data1[1];
-			Data->Finger[i].XPosHi = data1[2];
-
-			Data->Finger[i].YWidth = 16;
-			Data->Finger[i].YPosLo = data1[3];
-			Data->Finger[i].YPosHi = data1[4];
-			
-			Data->Finger[i].ZAmplitude = data1[5];
-
 			x = (data1[2] << 8) | data1[1];
 			y = (data1[4] << 8) | data1[3];
+
+			Data->Finger[i].X = x;
+			Data->Finger[i].Y = y;
+
+			DbgPrintEx(
+				DPFLTR_IHVDRIVER_ID,
+				DPFLTR_INFO_LEVEL,
+				"Touch point %d (Status = %d, X = %d, Y = %d) \n",
+				i, fingerStatus[i], x, y);
 
 			data1 += F12_DATA1_BYTES_PER_OBJ;
 		}
@@ -285,7 +301,7 @@ Return Value:
 			"Error reading finger status data - empty buffer"
 		);
 
-		goto exit;
+		goto free_buffer;
 	}
 
 	// Synchronize status back
@@ -299,6 +315,12 @@ Return Value:
 	Data->Status.FingerState7 = fingerStatus[7];
 	Data->Status.FingerState8 = fingerStatus[8];
 	Data->Status.FingerState9 = fingerStatus[9];
+
+free_buffer:
+	ExFreePoolWithTag(
+		controllerData,
+		TOUCH_POOL_TAG_F12
+	);
 
 exit:
     return status;
@@ -423,10 +445,8 @@ Return Value:
         // Update local cache with new information from the controller
         //
         Cache->FingerSlot[i].fingerStatus = (UCHAR) fingerStatus[i];
-        Cache->FingerSlot[i].x = (Data->Finger[i].XPosLo & 0xF) |
-                                ((Data->Finger[i].XPosHi & 0xFF) << 4);
-        Cache->FingerSlot[i].y = (Data->Finger[i].YPosLo & 0xF) |
-                                ((Data->Finger[i].YPosHi & 0xFF) << 4);
+		Cache->FingerSlot[i].x = Data->Finger[i].X;
+		Cache->FingerSlot[i].y = Data->Finger[i].Y;
 
         //
         // If a finger lifted, note the slot is now inactive so that any

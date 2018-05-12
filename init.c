@@ -651,19 +651,6 @@ RmiConfigureFunctions(
 		&ControllerContext->DataRegDesc
 	);
 
-	// Allocate a buffer
-	ControllerContext->DataPacket = ExAllocatePoolWithTag(
-		NonPagedPoolNx,
-		ControllerContext->PacketSize,
-		TOUCH_POOL_TAG_F12
-	);
-
-	if (ControllerContext->DataPacket == NULL)
-	{
-		status = STATUS_INSUFFICIENT_RESOURCES;
-		goto exit;
-	}
-
 	// Skip rmi_f12_read_sensor_tuning for the prototype.
 
 	/*
@@ -677,9 +664,8 @@ RmiConfigureFunctions(
 	if (item) data_offset += (USHORT) item->RegisterSize;
 
 	item = RmiGetRegisterDescItem(&ControllerContext->DataRegDesc, 1);
-	if (item)
+	if (item != NULL)
 	{
-		ControllerContext->Data1 = item;
 		ControllerContext->Data1Offset = data_offset;
 		ControllerContext->MaxFingers = item->NumSubPackets;
 	}
