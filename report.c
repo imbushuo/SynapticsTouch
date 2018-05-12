@@ -271,12 +271,6 @@ Return Value:
 			Data->Finger[i].X = x;
 			Data->Finger[i].Y = y;
 
-			DbgPrintEx(
-				DPFLTR_IHVDRIVER_ID,
-				DPFLTR_INFO_LEVEL,
-				"Touch point %d (Status = %d, X = %d, Y = %d) \n",
-				i, fingerStatus[i], x, y);
-
 			data1 += F12_DATA1_BYTES_PER_OBJ;
 		}
 	}
