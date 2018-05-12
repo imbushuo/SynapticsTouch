@@ -20,5 +20,5 @@
 
 #pragma once
 
-
+EVT_WDF_IO_QUEUE_IO_DEVICE_CONTROL			OnDeviceControl;
 EVT_WDF_IO_QUEUE_IO_INTERNAL_DEVICE_CONTROL OnInternalDeviceControl;

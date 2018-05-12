@@ -27,6 +27,18 @@
 #include "queue.tmh"
 
 VOID
+OnDeviceControl(
+	_In_ WDFQUEUE Queue,
+	_In_ WDFREQUEST Request,
+	_In_ size_t OutputBufferLength,
+	_In_ size_t InputBufferLength,
+	_In_ ULONG IoControlCode
+)
+{
+	OnInternalDeviceControl(Queue, Request, OutputBufferLength, InputBufferLength, IoControlCode);
+}
+
+VOID
 OnInternalDeviceControl(
     IN WDFQUEUE Queue,
     IN WDFREQUEST Request,
@@ -90,7 +102,7 @@ Return Value:
         //
         // Retrieves master HID descriptor 
         //
-
+		DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_INFO_LEVEL, "IOCTL_HID_GET_DEVICE_DESCRIPTOR requested \n");
         status = TchGetHidDescriptor(device, Request);
         break;
 
@@ -98,7 +110,7 @@ Return Value:
         //
         // Retrieves device attributes in a HID_DEVICE_ATTRIBUTES structure
         //
-        
+		DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_INFO_LEVEL, "IOCTL_HID_GET_DEVICE_ATTRIBUTES requested \n");
         status = TchGetDeviceAttributes(Request);
         break;
 
@@ -106,7 +118,7 @@ Return Value:
         //
         // Obtains the report descriptor for the HID device
         //
-        
+		DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_INFO_LEVEL, "IOCTL_HID_GET_REPORT_DESCRIPTOR requested \n");
         status = TchGetReportDescriptor(device, Request);
         break;
 
@@ -114,7 +126,7 @@ Return Value:
         //
         // Obtains strings associated with the HID device
         //
-        
+		DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_INFO_LEVEL, "IOCTL_HID_GET_STRING requested \n");
         status = TchGetString(device, Request);
         break;
 
@@ -122,7 +134,7 @@ Return Value:
         //
         // Dangling read requests for passing up touch data
         //
-        
+		DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_INFO_LEVEL, "IOCTL_HID_READ_REPORT requested \n");
         status = TchReadReport(device, Request, &requestPending);
         break;
     
@@ -131,7 +143,7 @@ Return Value:
         // This sends a HID class feature report to a top-level collection of
         // a HID class device.
         //
-        
+		DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_INFO_LEVEL, "IOCTL_HID_SET_FEATURE requested \n");
         status = TchSetFeatureReport(device, Request);
         break;
     
@@ -139,7 +151,7 @@ Return Value:
         //
         // Returns a feature report associated with a top-level collection
         //
-        
+		DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_INFO_LEVEL, "IOCTL_HID_GET_FEATURE requested \n");
         status = TchGetFeatureReport(device, Request);
         break;
 
@@ -148,7 +160,7 @@ Return Value:
         // Hidclass sends this IOCTL to notify miniports that it wants
         // them to go into idle
         //
-
+		DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_INFO_LEVEL, "IOCTL_HID_SEND_IDLE_NOTIFICATION_REQUEST requested \n");
         status = TchProcessIdleRequest(device, Request, &requestPending);
         break;
 

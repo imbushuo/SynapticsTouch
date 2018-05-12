@@ -188,6 +188,7 @@ Return Value:
         WdfIoQueueDispatchParallel);
 
     queueConfig.EvtIoInternalDeviceControl = OnInternalDeviceControl;
+	queueConfig.EvtIoDeviceControl = OnDeviceControl;
     queueConfig.PowerManaged = WdfFalse;
 
     status = WdfIoQueueCreate(

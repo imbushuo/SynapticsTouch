@@ -147,7 +147,7 @@
       <WppScanConfigurationData>trace.h</WppScanConfigurationData>
     </ClCompile>
     <ClCompile Include="hweight.c" />
-    <Inf Include=".\SynapticsTouch.inx">
+    <Inf Include="SynapticsTouch.inf">
       <Architecture>$(InfArch)</Architecture>
       <SpecifyArchitecture>true</SpecifyArchitecture>
       <CopyOutput>.\$(IntDir)\SynapticsTouch.inf</CopyOutput>
