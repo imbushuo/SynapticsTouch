@@ -112,7 +112,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <PropertyGroup>
-    <OutDir>$(IntDir)</OutDir>
+    <OutDir>build\$(Platform)\$(ConfigurationName)\</OutDir>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
@@ -155,28 +155,36 @@
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>SynapticsTouch</TargetName>
+    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>SynapticsTouch</TargetName>
+    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>SynapticsTouch</TargetName>
+    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <TargetName>SynapticsTouch</TargetName>
+    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <TargetName>SynapticsTouch</TargetName>
+    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>SynapticsTouch</TargetName>
+    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <TargetName>SynapticsTouch</TargetName>
+    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <TargetName>SynapticsTouch</TargetName>
     <IncludePath>$(IntDir);$(IncludePath)</IncludePath>
+    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -186,13 +194,14 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
+      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Midl>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
@@ -207,13 +216,14 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
+      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Midl>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
@@ -228,13 +238,14 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
+      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Midl>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
@@ -249,13 +260,14 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
+      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Midl>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
@@ -270,13 +282,14 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
+      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Midl>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
@@ -291,13 +304,14 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
+      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Midl>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
@@ -312,13 +326,14 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
+      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Midl>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
@@ -340,7 +355,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WIN32_WINNT=0x602;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);DRIVER;_WINNT_;_SAMPLE_DESCRIPTOR_</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
@@ -358,6 +373,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Exclude="@(ClInclude)" Include="*.h;*.hpp;*.hxx;*.hm;*.inl;*.xsd" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
