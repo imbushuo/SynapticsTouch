@@ -514,6 +514,7 @@ typedef struct _RMI4_CONTROLLER_CONTEXT
 
 	USHORT Data1Offset;
 	BYTE MaxFingers;
+	BYTE MaxFingerObjects;
 
 } RMI4_CONTROLLER_CONTEXT;
 

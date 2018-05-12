@@ -175,7 +175,6 @@ Return Value:
     RMI4_CONTROLLER_CONTEXT* controller;
 
     int index, i, x, y;
-	int objects;
 
 	BYTE fingerStatus[RMI4_MAX_TOUCHES] = { 0 };
 	BYTE* data1;
@@ -253,19 +252,7 @@ Return Value:
 	data1 = &controllerData[controller->Data1Offset];
 	if (data1 != NULL)
 	{
-		objects = controller->MaxFingers;
-
-		if ((controller->MaxFingers * F12_DATA1_BYTES_PER_OBJ) > controller->PacketSize)
-		{
-			objects = (int) controller->PacketSize / F12_DATA1_BYTES_PER_OBJ;
-		}
-		
-		if (objects > RMI4_MAX_TOUCHES)
-		{
-			objects = RMI4_MAX_TOUCHES;
-		}
-
-		for (i = 0; i < objects; i++) 
+		for (i = 0; i < controller->MaxFingers; i++) 
 		{
 			switch (data1[0]) 
 			{
