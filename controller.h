@@ -53,8 +53,6 @@
 #define MOUSE_MOVE_TOUCH_ABSOLUTE       0x8000
 
 #define FINGER_STATUS                   0x01 // finger down
-#define RANGE_STATUS                    0x02 // in range
-#define RANGE_FINGER_STATUS             0x03 // finger down (range + finger)
 
 #define KEY_DOWN_START                  (1 << 0)
 #define KEY_DOWN_SEARCH                 (1 << 1)
@@ -89,8 +87,9 @@ typedef struct _HID_TOUCH_REPORT
             USHORT wXData2;
             USHORT wYData2;
             UCHAR  ActualCount;
+            USHORT ScanTime;
         } InputReport;
-        UCHAR RawInput[13];
+        UCHAR RawInput[15];
     };
 } HID_TOUCH_REPORT, *PHID_TOUCH_REPORT;
 

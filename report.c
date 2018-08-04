@@ -443,6 +443,12 @@ Return Value:
             Cache->FingerSlotValid &= ~(1 << i);
         }
     }
+
+    //
+    // Get current scan time (in 100us units)
+    //
+    ULONG64 QpcTimeStamp;
+    Cache->ScanTime = KeQueryInterruptTimePrecise(&QpcTimeStamp) / 1000;
 }
 
 VOID
@@ -486,6 +492,11 @@ Return Value:
     hidTouch = &(HidReport->TouchReport);
 
     //
+    // There are only 16-bits for ScanTime, truncate it
+    //
+    hidTouch->InputReport.ScanTime = Cache->ScanTime & 0xFFFF;
+
+    //
     // Report the next available finger
     //
     currentlyReporting = Cache->FingerDownOrder[*TouchesReported];
@@ -504,7 +515,7 @@ Return Value:
 
     if (Cache->FingerSlot[currentlyReporting].fingerStatus)
     {
-        hidTouch->InputReport.bStatus = RANGE_FINGER_STATUS;
+        hidTouch->InputReport.bStatus = FINGER_STATUS;
     }
 
     (*TouchesReported)++;
@@ -530,7 +541,7 @@ Return Value:
 
         if (Cache->FingerSlot[currentlyReporting].fingerStatus)
         {
-            hidTouch->InputReport.bStatus2 = RANGE_FINGER_STATUS;
+            hidTouch->InputReport.bStatus2 = FINGER_STATUS;
         }
 
         (*TouchesReported)++;
@@ -546,6 +557,20 @@ Return Value:
     {
         hidTouch->InputReport.ActualCount = (UCHAR) TouchesTotal;
     }
+
+    Trace(
+        TRACE_LEVEL_NOISE,
+        TRACE_FLAG_REPORTING,
+        "ActualCount %d, Touch0 ContactId %u X %u Y %u Tip %u, Touch1 ContactId %u X %u Y %u Tip %u",
+        hidTouch->InputReport.ActualCount,
+        hidTouch->InputReport.ContactId,
+        hidTouch->InputReport.wXData,
+        hidTouch->InputReport.wYData,
+        hidTouch->InputReport.bStatus,
+        hidTouch->InputReport.ContactId2,
+        hidTouch->InputReport.wXData2,
+        hidTouch->InputReport.wYData2,
+        hidTouch->InputReport.bStatus2);
 }
 
 NTSTATUS

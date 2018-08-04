@@ -460,6 +460,7 @@ typedef struct _RMI4_FINGER_CACHE
     UINT32 FingerSlotDirty;
     int FingerDownOrder[RMI4_MAX_TOUCHES];
     int FingerDownCount;
+    ULONG64 ScanTime;
 } RMI4_FINGER_CACHE;
 
 typedef struct _RMI4_CONTROLLER_CONTEXT
