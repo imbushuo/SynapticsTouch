@@ -423,11 +423,15 @@ Return Value:
         }
 
         //
-        // Update local cache with new information from the controller
+        // When finger is down, update local cache with new information from
+        // the controller. When finger is up, we'll use last cached value
         //
         Cache->FingerSlot[i].fingerStatus = (UCHAR) fingerStatus[i];
-		Cache->FingerSlot[i].x = Data->Finger[i].X;
-		Cache->FingerSlot[i].y = Data->Finger[i].Y;
+        if (Cache->FingerSlot[i].fingerStatus)
+        {
+            Cache->FingerSlot[i].x = Data->Finger[i].X;
+            Cache->FingerSlot[i].y = Data->Finger[i].Y;
+        }
 
         //
         // If a finger lifted, note the slot is now inactive so that any
