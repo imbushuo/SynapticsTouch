@@ -316,6 +316,12 @@ typedef enum _RMI4_F12_OBJECT_TYPE {
 #define RMI_REG_DESC_PRESENSE_BITS	(32 * BITS_PER_BYTE)
 #define RMI_REG_DESC_SUBPACKET_BITS	(37 * BITS_PER_BYTE)
 
+#define RMI_F12_REPORTING_MODE_CONTINUOUS   0
+#define RMI_F12_REPORTING_MODE_REDUCED      1
+#define RMI_F12_REPORTING_MODE_MASK         7
+
+#define F12_2D_CTRL20   20
+
 /* describes a single packet register */
 typedef struct _RMI_REGISTER_DESC_ITEM {
 	USHORT Register;
@@ -460,6 +466,7 @@ typedef struct _RMI4_FINGER_CACHE
     UINT32 FingerSlotDirty;
     int FingerDownOrder[RMI4_MAX_TOUCHES];
     int FingerDownCount;
+    ULONG64 ScanTime;
 } RMI4_FINGER_CACHE;
 
 typedef struct _RMI4_CONTROLLER_CONTEXT
@@ -525,6 +532,14 @@ RmiCheckInterrupts(
     IN ULONG* InterruptStatus
     );
 
+NTSTATUS
+RmiSetReportingMode(
+    IN RMI4_CONTROLLER_CONTEXT* ControllerContext,
+    IN SPB_CONTEXT *SpbContext,
+    IN UCHAR ReportingMode,
+    OUT OPTIONAL UCHAR *OldMode
+    );
+
 int
 RmiGetFunctionIndex(
     IN RMI4_FUNCTION_DESCRIPTOR* FunctionDescriptors,
@@ -552,6 +567,11 @@ RmiRegisterDescriptorCalcSize(
 );
 
 const PRMI_REGISTER_DESC_ITEM RmiGetRegisterDescItem(
+	PRMI_REGISTER_DESCRIPTOR Rdesc,
+	USHORT reg
+);
+
+UINT8 RmiGetRegisterIndex(
 	PRMI_REGISTER_DESCRIPTOR Rdesc,
 	USHORT reg
 );

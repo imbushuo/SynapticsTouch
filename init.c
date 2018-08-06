@@ -491,6 +491,21 @@ const PRMI_REGISTER_DESC_ITEM RmiGetRegisterDescItem(
 	return NULL;
 }
 
+UINT8 RmiGetRegisterIndex(
+	PRMI_REGISTER_DESCRIPTOR Rdesc,
+	USHORT reg
+)
+{
+	UINT8 i;
+
+	for (i = 0; i < Rdesc->NumRegisters; i++)
+	{
+		if (Rdesc->Registers[i].Register == reg) return i;
+	}
+
+	return Rdesc->NumRegisters;
+}
+
 NTSTATUS
 RmiConfigureFunctions(
     IN RMI4_CONTROLLER_CONTEXT *ControllerContext,
@@ -764,6 +779,15 @@ RmiConfigureFunctions(
             status);
         goto exit;
     }
+
+    //
+    // Try to set continuous reporting mode during touch
+    //
+    RmiSetReportingMode(
+        ControllerContext,
+        SpbContext,
+        RMI_F12_REPORTING_MODE_CONTINUOUS,
+        NULL);
 
     //
     // Note whether the device configuration settings initialized the
@@ -1142,6 +1166,157 @@ RmiCheckInterrupts(
     }
 
 exit:
+    return status;
+}
+
+NTSTATUS
+RmiSetReportingMode(
+    IN RMI4_CONTROLLER_CONTEXT* ControllerContext,
+    IN SPB_CONTEXT *SpbContext,
+    IN UCHAR NewMode,
+    OUT UCHAR *OldMode
+)
+/*++
+
+Routine Description:
+
+Changes the F12 Reporting Mode on the controller as specified
+
+Arguments:
+
+ControllerContext - Touch controller context
+
+SpbContext - A pointer to the current i2c context
+
+NewMode - Either RMI_F12_REPORTING_MODE_CONTINUOUS
+          or RMI_F12_REPORTING_MODE_REDUCED
+
+OldMode - Old value of reporting mode
+
+Return Value:
+
+NTSTATUS indicating success or failure
+
+--*/
+{
+    UCHAR reportingControl[3];
+    int index;
+    NTSTATUS status;
+    UINT8 indexCtrl20;
+
+    //
+    // Find RMI F12 function
+    //
+    index = RmiGetFunctionIndex(
+        ControllerContext->Descriptors,
+        ControllerContext->FunctionCount,
+        RMI4_F12_2D_TOUCHPAD_SENSOR);
+
+    if (index == ControllerContext->FunctionCount)
+    {
+        Trace(
+            TRACE_LEVEL_ERROR,
+            TRACE_FLAG_INIT,
+            "Set ReportingMode failure - RMI Function 12 missing");
+
+        status = STATUS_INVALID_DEVICE_STATE;
+        goto exit;
+    }
+
+    status = RmiChangePage(
+        ControllerContext,
+        SpbContext,
+        ControllerContext->FunctionOnPage[index]);
+
+    if (!NT_SUCCESS(status))
+    {
+        Trace(
+            TRACE_LEVEL_ERROR,
+            TRACE_FLAG_INIT,
+            "Could not change register page");
+
+        goto exit;
+    }
+
+    indexCtrl20 = RmiGetRegisterIndex(&ControllerContext->ControlRegDesc, F12_2D_CTRL20);
+
+    if (indexCtrl20 == ControllerContext->ControlRegDesc.NumRegisters)
+    {
+        Trace(
+            TRACE_LEVEL_ERROR,
+            TRACE_FLAG_INIT,
+            "Cannot find F12_2D_Ctrl20 offset");
+
+        status = STATUS_INVALID_DEVICE_STATE;
+        goto exit;
+    }
+
+    if (ControllerContext->ControlRegDesc.Registers[indexCtrl20].RegisterSize != sizeof(reportingControl))
+    {
+        Trace(
+            TRACE_LEVEL_ERROR,
+            TRACE_FLAG_INIT,
+            "Unexpected F12_2D_Ctrl20 register size");
+
+        status = STATUS_INVALID_DEVICE_STATE;
+        goto exit;
+    }
+
+    //
+    // Read Device Control register
+    //
+    status = SpbReadDataSynchronously(
+        SpbContext,
+        ControllerContext->Descriptors[index].ControlBase + indexCtrl20,
+        &reportingControl,
+        sizeof(reportingControl)
+    );
+
+    if (!NT_SUCCESS(status))
+    {
+        Trace(
+            TRACE_LEVEL_ERROR,
+            TRACE_FLAG_INIT,
+            "Could not read F12_2D_Ctrl20 register - %!STATUS!",
+            status);
+
+        goto exit;
+    }
+
+    if (OldMode)
+    {
+        *OldMode = reportingControl[0] & RMI_F12_REPORTING_MODE_MASK;
+    }
+
+    //
+    // Assign new value
+    //
+    reportingControl[0] &= ~RMI_F12_REPORTING_MODE_MASK;
+    reportingControl[0] |= NewMode & RMI_F12_REPORTING_MODE_MASK;
+
+    //
+    // Write setting back to the controller
+    //
+    status = SpbWriteDataSynchronously(
+        SpbContext,
+        ControllerContext->Descriptors[index].ControlBase + indexCtrl20,
+        &reportingControl,
+        sizeof(reportingControl)
+    );
+
+    if (!NT_SUCCESS(status))
+    {
+        Trace(
+            TRACE_LEVEL_ERROR,
+            TRACE_FLAG_INIT,
+            "Could not write F12_2D_Ctrl20 register - %X",
+            status);
+
+        goto exit;
+    }
+
+exit:
+
     return status;
 }
 
