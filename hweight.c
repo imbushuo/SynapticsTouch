@@ -16,8 +16,8 @@ unsigned int hweight32(unsigned int w)
 ULONGLONG hweight64(ULONGLONG w)
 {
 #if ARM || X86
-	return __sw_hweight32((unsigned int)(w >> 32)) +
-		__sw_hweight32((unsigned int)w);
+	return hweight32((unsigned int)(w >> 32)) +
+		hweight32((unsigned int)w);
 #else
 	ULONGLONG res = w - ((w >> 1) & 0x5555555555555555ul);
 	res = (res & 0x3333333333333333ul) + ((res >> 2) & 0x3333333333333333ul);
