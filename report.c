@@ -174,7 +174,7 @@ Return Value:
     NTSTATUS status;
     RMI4_CONTROLLER_CONTEXT* controller;
 
-    int index, i, x, y;
+    int index, i, x, y, fingers;
 
 	BYTE fingerStatus[RMI4_MAX_TOUCHES] = { 0 };
 	BYTE* data1;
@@ -250,6 +250,8 @@ Return Value:
 	}
 
 	data1 = &controllerData[controller->Data1Offset];
+	fingers = 0;
+
 	if (data1 != NULL)
 	{
 		for (i = 0; i < controller->MaxFingers; i++) 
@@ -259,6 +261,7 @@ Return Value:
 			case RMI_F12_OBJECT_FINGER:
 			case RMI_F12_OBJECT_STYLUS:
 				fingerStatus[i] = RMI4_FINGER_STATE_PRESENT_WITH_ACCURATE_POS;
+				fingers++;
 				break;
 			default:
 				fingerStatus[i] = RMI4_FINGER_STATE_NOT_PRESENT;
@@ -272,6 +275,12 @@ Return Value:
 			Data->Finger[i].Y = y;
 
 			data1 += F12_DATA1_BYTES_PER_OBJ;
+		}
+
+		// Intentionally bugcheck to figure out issues
+		if (fingers >= 7)
+		{
+			KeBugCheckEx(MANUALLY_INITIATED_CRASH, 0, 0, 0, 0);
 		}
 	}
 	else
