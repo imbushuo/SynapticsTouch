@@ -289,34 +289,40 @@
     <ClCompile Include="spb.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="driver.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hid.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="idle.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="init.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="power.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="queue.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="report.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="resolutions.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="registry.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="spb.c">
+    <ClCompile Include="..\src\*.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\*.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\*.c">
