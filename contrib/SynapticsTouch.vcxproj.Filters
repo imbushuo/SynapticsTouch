@@ -19,36 +19,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src/driver.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/hid.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/idle.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/init.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/power.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/queue.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/report.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/resolutions.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/registry.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src/spb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="driver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -349,127 +319,56 @@
     <ClCompile Include="spb.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="driver.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hid.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="idle.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="init.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="power.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="queue.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="report.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="resolutions.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="registry.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="spb.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bitops.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\device.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\driver.c">
+    <ClCompile Include="..\src\*.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\hid.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hweight.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\idle.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\init.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\power.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\queue.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\registry.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\report.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\resolutions.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\spb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\compat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\device.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\driver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\hweight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\idle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\queue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\resolutions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\rmiinternal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\spb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\trace.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Inf Include="src/*.inf">
       <Filter>Driver Files</Filter>
     </Inf>
+    <Inf Include="..\src\*.inf">
+      <Filter>Driver Files</Filter>
+    </Inf>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src/Resource.rc">
+    <ResourceCompile Include="..\src\Resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
