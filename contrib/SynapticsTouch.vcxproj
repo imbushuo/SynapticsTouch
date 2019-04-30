@@ -112,7 +112,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <PropertyGroup>
-    <OutDir>build\$(Platform)\$(ConfigurationName)\</OutDir>
+    <OutDir>..\build\$(Platform)\$(ConfigurationName)\</OutDir>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
@@ -140,43 +140,43 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>SynapticsTouch</TargetName>
-    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
+    <IntDir>..\intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
     <IncludePath>$(IntDir);$(SolutionDir)..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>SynapticsTouch</TargetName>
-    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
+    <IntDir>..\intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
     <IncludePath>$(IntDir);$(SolutionDir)..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>SynapticsTouch</TargetName>
-    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
+    <IntDir>..\intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
     <IncludePath>$(IntDir);$(SolutionDir)..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <TargetName>SynapticsTouch</TargetName>
-    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
+    <IntDir>..\intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
     <IncludePath>$(IntDir);$(SolutionDir)..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <TargetName>SynapticsTouch</TargetName>
-    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
+    <IntDir>..\intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
     <IncludePath>$(IntDir);$(SolutionDir)..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>SynapticsTouch</TargetName>
-    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
+    <IntDir>..\intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
     <IncludePath>$(IntDir);$(SolutionDir)..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <TargetName>SynapticsTouch</TargetName>
-    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
+    <IntDir>..\intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
     <IncludePath>$(IntDir);$(SolutionDir)..\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <TargetName>SynapticsTouch</TargetName>
     <IncludePath>$(IntDir);$(SolutionDir)..\include;$(IncludePath)</IncludePath>
-    <IntDir>intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
+    <IntDir>..\intermediate\$(Platform)\$(ConfigurationName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
