@@ -1,7 +1,7 @@
 /* HWeight Linux Port */
 #include <wdm.h>
 #include <wdf.h>
-#include "hweight.h"
+#include <hweight.h>
 
 
 unsigned int hweight32(unsigned int w)

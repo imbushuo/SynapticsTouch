@@ -19,10 +19,10 @@
 
 --*/
 
-#include "internal.h"
-#include "controller.h"
-#include "idle.h"
-#include "idle.tmh"
+#include <internal.h>
+#include <controller.h>
+#include <idle.h>
+#include <idle.tmh>
 
 NTSTATUS
 TchProcessIdleRequest(
@@ -90,7 +90,7 @@ Return Value:
 
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_HID,
+            TRACE_HID,
             "Error: Input buffer is too small to process idle request - %!STATUS!", 
             status);
 
@@ -110,7 +110,7 @@ Return Value:
         status = STATUS_NO_CALLBACK_ACTIVE;
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_HID,
+            TRACE_HID,
             "Error: Idle Notification request %p has no idle callback info - %!STATUS!",
             Request,
             status);
@@ -140,7 +140,7 @@ Return Value:
         if (!NT_SUCCESS(status)) {
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_HID,
+                TRACE_HID,
                 "Error creating creating idle work item - %!STATUS!",
                 status);
             goto exit;
@@ -234,7 +234,7 @@ Return Value:
 
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_IDLE,
+            TRACE_IDLE,
             "Error forwarding idle notification Request:0x%p to IdleQueue:0x%p - %!STATUS!",
             idleWorkItemContext->FxRequest,
             deviceContext->IdleQueue,
@@ -249,7 +249,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_INFORMATION,
-            TRACE_FLAG_IDLE,
+            TRACE_IDLE,
             "Forwarded idle notification Request:0x%p to IdleQueue:0x%p - %!STATUS!",
             idleWorkItemContext->FxRequest,
             deviceContext->IdleQueue,
@@ -303,7 +303,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_WARNING,
-            TRACE_FLAG_IDLE,
+            TRACE_IDLE,
             "Error finding idle notification request in IdleQueue:0x%p - %!STATUS!",
             FxDeviceContext->IdleQueue,
             status);
@@ -317,7 +317,7 @@ Return Value:
 
         Trace(
             TRACE_LEVEL_INFORMATION,
-            TRACE_FLAG_IDLE,
+            TRACE_IDLE,
             "Completed idle notification Request:0x%p from IdleQueue:0x%p - %!STATUS!",
             request,
             FxDeviceContext->IdleQueue,

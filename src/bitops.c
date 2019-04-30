@@ -1,8 +1,8 @@
 /* BitOps Linux Port */
 #include <wdm.h>
 #include <wdf.h>
-#include "bitops.h"
-#include "hweight.h"
+#include <bitops.h>
+#include <hweight.h>
 
 void bitmap_set(unsigned long *map, unsigned int start, int len)
 {

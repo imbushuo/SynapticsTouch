@@ -19,12 +19,12 @@
 
 --*/
 
-#include "internal.h"
-#include "controller.h"
-#include "queue.h"
-#include "hid.h"
-#include "idle.h"
-#include "queue.tmh"
+#include <internal.h>
+#include <controller.h>
+#include <queue.h>
+#include <hid.h>
+#include <idle.h>
+#include <queue.tmh>
 
 VOID
 OnDeviceControl(

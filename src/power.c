@@ -18,10 +18,10 @@
 
 --*/
 
-#include "controller.h"
-#include "rmiinternal.h"
-#include "spb.h"
-#include "power.tmh"
+#include <controller.h>
+#include <rmiinternal.h>
+#include <spb.h>
+#include <power.tmh>
 
 NTSTATUS
 RmiChangeSleepState(
@@ -69,7 +69,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_POWER,
+            TRACE_POWER,
             "Power change failure - RMI Function 01 missing");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -85,7 +85,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_POWER,
+            TRACE_POWER,
             "Could not change register page");
 
         goto exit;
@@ -105,7 +105,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_POWER,
+            TRACE_POWER,
             "Could not read sleep register - %!STATUS!",
             status);
 
@@ -131,7 +131,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_POWER,
+            TRACE_POWER,
             "Could not write sleep register - %X",
             status);
 
@@ -193,7 +193,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_POWER,
+            TRACE_POWER,
             "Error waking touch controller - %!STATUS!",
             status);
     }
@@ -250,7 +250,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_POWER,
+            TRACE_POWER,
             "Error sleeping touch controller - %!STATUS!",
             status);
     }

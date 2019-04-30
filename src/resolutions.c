@@ -20,8 +20,8 @@
 
 --*/
 
-#include "rmiinternal.h"
-#include "resolutions.tmh"
+#include <rmiinternal.h>
+#include <resolutions.tmh>
 
 //
 // Registry values explaining the relationship of the touch
@@ -363,7 +363,7 @@ TchTranslateToDisplayCoordinates(
 
     Trace(
         TRACE_LEVEL_INFORMATION,
-        TRACE_FLAG_REPORTING,
+        TRACE_REPORTING,
         "In (%d,%d), Out (%d,%d)",
         *PX, *PY, X, Y);
 
@@ -444,7 +444,7 @@ TchGetScreenProperties(
     {
         Trace(
             TRACE_LEVEL_WARNING,
-            TRACE_FLAG_REGISTRY,
+            TRACE_REGISTRY,
             "Error retrieving registry configuration - %!STATUS!",
             status);
     }
@@ -459,7 +459,7 @@ TchGetScreenProperties(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_REGISTRY,
+            TRACE_REGISTRY,
             "Invalid pillar box widths provided (%d,%d for %d)",
             Props->TouchPillarBoxWidthLeft,
             Props->TouchPillarBoxWidthRight,
@@ -478,7 +478,7 @@ TchGetScreenProperties(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_REGISTRY,
+            TRACE_REGISTRY,
             "Invalid letter box heights provided (%d,%d for %d)",
             Props->TouchLetterBoxHeightTop,
             Props->TouchLetterBoxHeightBottom,

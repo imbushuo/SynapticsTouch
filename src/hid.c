@@ -18,10 +18,10 @@
 
 --*/
 
-#include "internal.h"
-#include "controller.h"
-#include "hid.h"
-#include "hid.tmh"
+#include <internal.h>
+#include <controller.h>
+#include <hid.h>
+#include <hid.tmh>
 
 
 //
@@ -228,7 +228,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_HID,
+            TRACE_HID,
             "Failed to forward HID request to I/O queue - %!STATUS!",
             status);
 
@@ -341,7 +341,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_HID,
+            TRACE_HID,
             "Error getting device string - %!STATUS!",
             status);
     }
@@ -393,7 +393,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_HID,
+            TRACE_HID,
             "Error getting HID descriptor request memory - %!STATUS!",
             status);
         goto exit;
@@ -412,7 +412,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_HID,
+            TRACE_HID,
             "Error copying HID descriptor to request memory - %!STATUS!",
             status);
         goto exit;
@@ -475,7 +475,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_HID,
+            TRACE_HID,
             "Error getting HID report descriptor request memory - %!STATUS!",
             status);
         goto exit;
@@ -494,7 +494,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_HID,
+            TRACE_HID,
             "Error copying HID report descriptor to request memory - %!STATUS!",
             status);
         goto exit;
@@ -552,7 +552,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_HID,
+            TRACE_HID,
             "Error retrieving device attribute output buffer - %!STATUS!",
             status);
         goto exit;

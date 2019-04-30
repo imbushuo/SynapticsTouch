@@ -20,8 +20,8 @@
 
 --*/
 
-#include "rmiinternal.h"
-#include "registry.tmh"
+#include <rmiinternal.h>
+#include <registry.tmh>
 
 //
 // Default RMI4 configuration values can be changed here. Please refer to the
@@ -597,7 +597,7 @@ TchRegistryGetControllerSettings(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_REGISTRY,
+            TRACE_REGISTRY,
             "Error opening device registry key - %!STATUS!",
             status);
 
@@ -615,7 +615,7 @@ TchRegistryGetControllerSettings(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_REGISTRY,
+            TRACE_REGISTRY,
             "Error opening device registry subkey - %!STATUS!",
             status);
 
@@ -628,7 +628,7 @@ TchRegistryGetControllerSettings(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_REGISTRY,
+            TRACE_REGISTRY,
             "Error getting WDM handle to WDF subkey");
 
         goto exit;
@@ -674,7 +674,7 @@ TchRegistryGetControllerSettings(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_REGISTRY,
+            TRACE_REGISTRY,
             "Error retrieving registry configuration - %!STATUS!",
             status);
 
@@ -696,7 +696,7 @@ exit:
 
         Trace(
             TRACE_LEVEL_WARNING,
-            TRACE_FLAG_REGISTRY,
+            TRACE_REGISTRY,
             "Error reading registry config, using defaults! - %!STATUS!",
             status);
 
