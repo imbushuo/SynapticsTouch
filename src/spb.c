@@ -18,9 +18,9 @@
 
 --*/
 
-#include "internal.h"
-#include "controller.h"
-#include "spb.tmh"
+#include <internal.h>
+#include <controller.h>
+#include <spb.tmh>
 
 NTSTATUS
 SpbDoWriteDataSynchronously(
@@ -76,7 +76,7 @@ SpbDoWriteDataSynchronously(
         {
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_SPB,
+                TRACE_SPB,
                 "Error allocating memory for Spb write - %!STATUS!",
                 status);
             goto exit;
@@ -119,7 +119,7 @@ SpbDoWriteDataSynchronously(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_SPB,
+            TRACE_SPB,
             "Error writing to Spb - %!STATUS!",
             status);
         goto exit;
@@ -230,7 +230,7 @@ SpbReadDataSynchronously(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_SPB,
+            TRACE_SPB,
             "Error setting address pointer for Spb read - %!STATUS!",
             status);
         goto exit;
@@ -250,7 +250,7 @@ SpbReadDataSynchronously(
         {
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_SPB,
+                TRACE_SPB,
                 "Error allocating memory for Spb read - %!STATUS!",
                 status);
             goto exit;
@@ -285,7 +285,7 @@ SpbReadDataSynchronously(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_SPB,
+            TRACE_SPB,
             "Error reading from Spb - %!STATUS!",
             status);
         goto exit;
@@ -395,7 +395,7 @@ SpbTargetInitialize(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_SPB,
+            TRACE_SPB,
             "Error creating IoTarget object - %!STATUS!", 
             status);
 
@@ -417,7 +417,7 @@ SpbTargetInitialize(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_SPB,
+            TRACE_SPB,
             "Error creating Spb resource hub path string - %!STATUS!",
             status);
         goto exit;
@@ -438,7 +438,7 @@ SpbTargetInitialize(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_SPB,
+            TRACE_SPB,
             "Error opening Spb target for communication - %!STATUS!", 
             status);
         goto exit;
@@ -460,7 +460,7 @@ SpbTargetInitialize(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_SPB,
+            TRACE_SPB,
             "Error allocating default memory for Spb write - %!STATUS!",
             status);
         goto exit;
@@ -478,7 +478,7 @@ SpbTargetInitialize(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_SPB,
+            TRACE_SPB,
             "Error allocating default memory for Spb read - %!STATUS!",
             status);
         goto exit;
@@ -495,7 +495,7 @@ SpbTargetInitialize(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_SPB,
+            TRACE_SPB,
             "Error creating Spb Waitlock - %!STATUS!",
             status);
         goto exit;

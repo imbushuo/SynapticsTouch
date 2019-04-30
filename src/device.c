@@ -18,12 +18,12 @@
 
 --*/
 
-#include "internal.h"
-#include "controller.h"
-#include "device.h"
-#include "spb.h"
-#include "idle.h"
-#include "device.tmh"
+#include <internal.h>
+#include <controller.h>
+#include <device.h>
+#include <spb.h>
+#include <idle.h>
+#include <device.tmh>
 
 #ifdef ALLOC_PRAGMA
   #pragma alloc_text(PAGE, OnD0Exit)
@@ -117,7 +117,7 @@ OnInterruptIsr(
         {
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_REPORTING,
+                TRACE_REPORTING,
                 "No request pending from HIDClass, ignoring report - %!STATUS!",
                 status);
 
@@ -137,7 +137,7 @@ OnInterruptIsr(
         {
             Trace(
                 TRACE_LEVEL_VERBOSE,
-                TRACE_FLAG_SAMPLES,
+                TRACE_SAMPLES,
                 "Error retrieving HID read request output buffer - %!STATUS!",
                 status);
         }
@@ -152,7 +152,7 @@ OnInterruptIsr(
     
                 Trace(
                     TRACE_LEVEL_VERBOSE,
-                    TRACE_FLAG_SAMPLES,
+                    TRACE_SAMPLES,
                     "Error HID read request buffer is too small (%I64x bytes) - %!STATUS!",
                     hidReportRequestBufferLength,
                     status);
@@ -210,7 +210,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_POWER,
+            TRACE_POWER,
             "Error setting device to D0 - %!STATUS!",
             status);
     }
@@ -268,7 +268,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_POWER,
+            TRACE_POWER,
             "Error exiting D0 - %!STATUS!", 
             status);
     }
@@ -341,7 +341,7 @@ OnPrepareHardware(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error finding CmResourceTypeConnection resource - %!STATUS!",
             status);
 
@@ -357,7 +357,7 @@ OnPrepareHardware(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error in Spb initialization - %!STATUS!", 
             status);
 
@@ -373,7 +373,7 @@ OnPrepareHardware(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error allocating touch context - %!STATUS!", 
             status);
 
@@ -391,7 +391,7 @@ OnPrepareHardware(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error retrieving controller settings from registry - %!STATUS!",
             status);
 
@@ -407,7 +407,7 @@ OnPrepareHardware(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error starting touch device - %!STATUS!",
             status);
 
@@ -457,7 +457,7 @@ OnReleaseHardware(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_PNP,
+            TRACE_PNP,
             "Error stopping device - %!STATUS!",
             status);   
     }
@@ -468,7 +468,7 @@ OnReleaseHardware(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_PNP,
+            TRACE_PNP,
             "Error freeing touch context - %!STATUS!",
             status);   
     }

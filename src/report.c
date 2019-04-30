@@ -18,10 +18,10 @@
 
 --*/
 
-#include "controller.h"
-#include "rmiinternal.h"
-#include "spb.h"
-#include "report.tmh"
+#include <controller.h>
+#include <rmiinternal.h>
+#include <spb.h>
+#include <report.tmh>
 
 const USHORT gOEMVendorID = 0x7379;    // "sy"
 const USHORT gOEMProductID = 0x726D;    // "rm"
@@ -83,7 +83,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Unexpected - RMI Function 1A missing");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -99,7 +99,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not change register page");
 
         goto exit;
@@ -118,7 +118,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INTERRUPT,
+            TRACE_INTERRUPT,
             "Error reading finger status data - %!STATUS!",
             status);
 
@@ -194,7 +194,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Unexpected - RMI Function 12 missing");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -210,7 +210,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not change register page");
 
         goto exit;
@@ -242,7 +242,7 @@ Return Value:
 	{
 		Trace(
 			TRACE_LEVEL_ERROR,
-			TRACE_FLAG_INTERRUPT,
+			TRACE_INTERRUPT,
 			"Error reading finger status data - %!STATUS!",
 			status);
 
@@ -280,14 +280,16 @@ Return Value:
 		// Intentionally bugcheck to figure out issues
 		if (fingers >= 7)
 		{
-			KeBugCheckEx(MANUALLY_INITIATED_CRASH, 0, 0, 0, 0);
+#ifdef INTENTIONAL_BUGCHECK_FOR_DIAGNOSTICS
+			KeBugCheckEx(SOC_SUBSYSTEM_FAILURE, 0, 0, 0, 0);
+#endif
 		}
 	}
 	else
 	{
 		Trace(
 			TRACE_LEVEL_ERROR,
-			TRACE_FLAG_INTERRUPT,
+			TRACE_INTERRUPT,
 			"Error reading finger status data - empty buffer"
 		);
 
@@ -568,8 +570,8 @@ Return Value:
     }
 
     Trace(
-        TRACE_LEVEL_NOISE,
-        TRACE_FLAG_REPORTING,
+        TRACE_LEVEL_INFORMATION,
+        TRACE_REPORTING,
         "ActualCount %d, Touch0 ContactId %u X %u Y %u Tip %u, Touch1 ContactId %u X %u Y %u Tip %u",
         hidTouch->InputReport.ActualCount,
         hidTouch->InputReport.ContactId,
@@ -643,7 +645,7 @@ Return Value:
         {
             Trace(
                TRACE_LEVEL_VERBOSE,
-                TRACE_FLAG_SAMPLES,
+                TRACE_SAMPLES,
                 "No touch data to report - %!STATUS!",
                 status);
 
@@ -684,7 +686,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_VERBOSE,
-            TRACE_FLAG_SAMPLES,
+            TRACE_SAMPLES,
             "Unable to report touches, only multitouch mode is supported");
 
         status = STATUS_NOT_IMPLEMENTED;
@@ -780,7 +782,7 @@ Return Value:
         {
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_INTERRUPT,
+                TRACE_INTERRUPT,
                 "Error servicing interrupts - %!STATUS!",
                 status);
 
@@ -797,7 +799,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_WARNING,
-            TRACE_FLAG_INTERRUPT,
+            TRACE_INTERRUPT,
             "Ignoring following interrupt flags - %!STATUS!",
             controller->InterruptStatus & 
                 ~(RMI4_INTERRUPT_BIT_0D_CAP_BUTTON | 
@@ -841,7 +843,7 @@ Return Value:
         {
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_INTERRUPT,
+                TRACE_INTERRUPT,
                 "Error processing cap button event - %!STATUS!",
                 status);
         }
@@ -882,7 +884,7 @@ Return Value:
         {
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_INTERRUPT,
+                TRACE_INTERRUPT,
                 "Error processing touch event - %!STATUS!",
                 status);
         }

@@ -18,13 +18,13 @@
 
 --*/
 
-#include "internal.h"
-#include "controller.h"
-#include "driver.h"
-#include "device.h"
-#include "hid.h"
-#include "queue.h"
-#include "driver.tmh"
+#include <internal.h>
+#include <controller.h>
+#include <driver.h>
+#include <device.h>
+#include <hid.h>
+#include <queue.h>
+#include <driver.tmh>
 
 #ifdef ALLOC_PRAGMA
   #pragma alloc_text(PAGE, OnDeviceAdd)
@@ -85,7 +85,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error creating WDF driver object - %!STATUS!",
             status);
 
@@ -169,7 +169,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "WdfDeviceCreate failed - %!STATUS!",
             status);
 
@@ -201,7 +201,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error creating WDF default queue - %!STATUS!",
             status);
 
@@ -227,7 +227,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error creating WDF read request queue - %!STATUS!",
             status);
 
@@ -255,7 +255,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error creating WDF idle request queue - %!STATUS!", 
             status);
 
@@ -281,7 +281,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error creating WDF interrupt object - %!STATUS!",
             status);
 

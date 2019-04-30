@@ -18,9 +18,9 @@
 
 --*/
 
-#include "rmiinternal.h"
-#include "spb.h"
-#include "init.tmh"
+#include <rmiinternal.h>
+#include <spb.h>
+#include <init.tmh>
 
 
 #pragma warning(push)
@@ -174,7 +174,7 @@ RmiGetFirmwareVersion(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Unexpected - RMI Function 01 missing");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -190,7 +190,7 @@ RmiGetFirmwareVersion(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not change register page");
 
         goto exit;
@@ -212,7 +212,7 @@ RmiGetFirmwareVersion(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error reading RMI F01 Query registers - %!STATUS!",
             status);
 
@@ -304,7 +304,7 @@ RmiReadRegisterDescriptor(
 	{
 		Trace(
 			TRACE_LEVEL_ERROR,
-			TRACE_FLAG_INIT,
+			TRACE_INIT,
 			"size_presence_reg has invalid size, either less than 0 or larger than 35");
 		Status = STATUS_INVALID_PARAMETER;
 		goto exit;
@@ -430,7 +430,7 @@ RmiReadRegisterDescriptor(
 
 		Trace(
 			TRACE_LEVEL_INFORMATION,
-			TRACE_FLAG_INIT,
+			TRACE_INIT,
 			"%s: reg: %d reg size: %ld subpackets: %d\n",
 			__func__,
 			item->Register, item->RegisterSize, item->NumSubPackets
@@ -451,7 +451,7 @@ exit:
 i2c_read_fail:
 	Trace(
 		TRACE_LEVEL_ERROR,
-		TRACE_FLAG_INIT,
+		TRACE_INIT,
 		"Failed to read general info register - %!STATUS!",
 		Status);
 	goto exit;
@@ -555,7 +555,7 @@ RmiConfigureFunctions(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Unexpected - RMI Function 12 missing");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -571,7 +571,7 @@ RmiConfigureFunctions(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not change register page");
 
         goto exit;
@@ -590,7 +590,7 @@ RmiConfigureFunctions(
 	{
 		Trace(
 			TRACE_LEVEL_ERROR,
-			TRACE_FLAG_INIT,
+			TRACE_INIT,
 			"Failed to read general info register - %!STATUS!",
 			status);
 		goto exit;
@@ -602,7 +602,7 @@ RmiConfigureFunctions(
 	{
 		Trace(
 			TRACE_LEVEL_ERROR,
-			TRACE_FLAG_INIT,
+			TRACE_INIT,
 			"Behavior of F12 without register descriptors is undefined."
 		);
 		
@@ -622,7 +622,7 @@ RmiConfigureFunctions(
 
 		Trace(
 			TRACE_LEVEL_ERROR,
-			TRACE_FLAG_INIT,
+			TRACE_INIT,
 			"Failed to read the Query Register Descriptor - %!STATUS!",
 			status);
 		goto exit;
@@ -639,7 +639,7 @@ RmiConfigureFunctions(
 
 		Trace(
 			TRACE_LEVEL_ERROR,
-			TRACE_FLAG_INIT,
+			TRACE_INIT,
 			"Failed to read the Control Register Descriptor - %!STATUS!",
 			status);
 		goto exit;
@@ -656,7 +656,7 @@ RmiConfigureFunctions(
 
 		Trace(
 			TRACE_LEVEL_ERROR,
-			TRACE_FLAG_INIT,
+			TRACE_INIT,
 			"Failed to read the Data Register Descriptor - %!STATUS!",
 			status);
 		goto exit;
@@ -684,7 +684,7 @@ RmiConfigureFunctions(
 		ControllerContext->Data1Offset = data_offset;
 		ControllerContext->MaxFingers = item->NumSubPackets;
 		if ((ControllerContext->MaxFingers * F12_DATA1_BYTES_PER_OBJ) > 
-			(ControllerContext->PacketSize - ControllerContext->Data1Offset))
+			(BYTE) (ControllerContext->PacketSize - ControllerContext->Data1Offset))
 		{
 			ControllerContext->MaxFingers = 
 				(BYTE) (ControllerContext->PacketSize - ControllerContext->Data1Offset) / 
@@ -734,7 +734,7 @@ RmiConfigureFunctions(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Unexpected - RMI Function 01 missing");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -750,7 +750,7 @@ RmiConfigureFunctions(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not change register page");
 
         goto exit;
@@ -774,7 +774,7 @@ RmiConfigureFunctions(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error writing RMI F01 Ctrl settings - %!STATUS!",
             status);
         goto exit;
@@ -866,7 +866,7 @@ RmiBuildFunctionsTable(
         {
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_INIT,
+                TRACE_INIT,
                 "Error returned from SPB/I2C read attempt %d - %!STATUS!",
                 function,
                 status);
@@ -902,7 +902,7 @@ RmiBuildFunctionsTable(
             {
                 Trace(
                     TRACE_LEVEL_ERROR,
-                    TRACE_FLAG_INIT,
+                    TRACE_INIT,
                     "Error attempting to change page - %!STATUS!",
                     status);
                 goto exit;
@@ -915,7 +915,7 @@ RmiBuildFunctionsTable(
         {
             Trace(
                 TRACE_LEVEL_VERBOSE,
-                TRACE_FLAG_INIT,
+                TRACE_INIT,
                 "Discovered function $%x",
                 ControllerContext->Descriptors[function].Number);
 
@@ -937,7 +937,7 @@ RmiBuildFunctionsTable(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error, encountered more than %d functions, must extend driver",
             RMI4_MAX_FUNCTIONS);
 
@@ -948,7 +948,7 @@ RmiBuildFunctionsTable(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Error, did not find terminator function 0, address down to %d",
             address);
 
@@ -963,7 +963,7 @@ RmiBuildFunctionsTable(
 
     Trace(
         TRACE_LEVEL_VERBOSE,
-        TRACE_FLAG_INIT,
+        TRACE_INIT,
         "Discovered %d RMI functions total",
         function);
 
@@ -1019,7 +1019,7 @@ RmiCheckInterrupts(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Unexpected - RMI Function 01 missing");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -1035,7 +1035,7 @@ RmiCheckInterrupts(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not change register page");
 
         goto exit;
@@ -1054,7 +1054,7 @@ RmiCheckInterrupts(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INTERRUPT,
+            TRACE_INTERRUPT,
             "Error reading interrupt status - %!STATUS!",
             status);
 
@@ -1082,7 +1082,7 @@ RmiCheckInterrupts(
 
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_INTERRUPT,
+                TRACE_INTERRUPT,
                 "Received status code 2 - invalid configuration");
 
             break;
@@ -1093,7 +1093,7 @@ RmiCheckInterrupts(
 
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_INTERRUPT,
+                TRACE_INTERRUPT,
                 "Received status code 4 - device failure");
 
             break;
@@ -1105,7 +1105,7 @@ RmiCheckInterrupts(
 
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_INTERRUPT,
+                TRACE_INTERRUPT,
                 "Received unknown status code - %d",
                 ControllerContext->UnknownStatusMessage);
 
@@ -1120,7 +1120,7 @@ RmiCheckInterrupts(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INTERRUPT,
+            TRACE_INTERRUPT,
             "Error, device status indicates chip in programming mode");
 
         goto exit;
@@ -1133,7 +1133,7 @@ RmiCheckInterrupts(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INTERRUPT,
+            TRACE_INTERRUPT,
             "Error, device status indicates chip is unconfigured");
 
         status = RmiConfigureFunctions(
@@ -1144,7 +1144,7 @@ RmiCheckInterrupts(
         {
             Trace(
                 TRACE_LEVEL_ERROR,
-                TRACE_FLAG_INTERRUPT,
+                TRACE_INTERRUPT,
                 "Could not reconfigure chip - %!STATUS!",
                 status);
 
@@ -1161,7 +1161,7 @@ RmiCheckInterrupts(
     {
         Trace(
             TRACE_LEVEL_VERBOSE,
-            TRACE_FLAG_INTERRUPT,
+            TRACE_INTERRUPT,
             "Unexpected -- no interrupt status bit set");
     }
 
@@ -1216,7 +1216,7 @@ NTSTATUS indicating success or failure
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Set ReportingMode failure - RMI Function 12 missing");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -1232,7 +1232,7 @@ NTSTATUS indicating success or failure
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not change register page");
 
         goto exit;
@@ -1244,7 +1244,7 @@ NTSTATUS indicating success or failure
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Cannot find F12_2D_Ctrl20 offset");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -1255,7 +1255,7 @@ NTSTATUS indicating success or failure
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Unexpected F12_2D_Ctrl20 register size");
 
         status = STATUS_INVALID_DEVICE_STATE;
@@ -1276,7 +1276,7 @@ NTSTATUS indicating success or failure
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not read F12_2D_Ctrl20 register - %!STATUS!",
             status);
 
@@ -1308,7 +1308,7 @@ NTSTATUS indicating success or failure
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not write F12_2D_Ctrl20 register - %X",
             status);
 
@@ -1364,7 +1364,7 @@ TchStartDevice(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not build table of RMI functions - %!STATUS!",
             status);
         goto exit;
@@ -1381,7 +1381,7 @@ TchStartDevice(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not configure RMI functions - %!STATUS!",
             status);
         goto exit;
@@ -1398,7 +1398,7 @@ TchStartDevice(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not get RMI firmware version - %!STATUS!",
             status);
         goto exit;
@@ -1417,7 +1417,7 @@ TchStartDevice(
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not get interrupt status - %!STATUS!%",
             status);
     }
@@ -1491,7 +1491,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not allocate controller context!");
 
         status = STATUS_UNSUCCESSFUL;
@@ -1518,7 +1518,7 @@ Return Value:
     {
         Trace(
             TRACE_LEVEL_ERROR,
-            TRACE_FLAG_INIT,
+            TRACE_INIT,
             "Could not create lock - %!STATUS!",
             status);
 
