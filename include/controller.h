@@ -41,8 +41,6 @@
 //
 // Constants
 //
-#define MODE_MOUSE                      0x00
-#define MODE_SINGLE_TOUCH               0x01
 #define MODE_MULTI_TOUCH                0x02
 
 #define MAX_MOUSE_COORD                 0x7FFF

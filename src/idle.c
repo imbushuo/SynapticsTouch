@@ -19,6 +19,7 @@
 
 --*/
 
+#include <compat.h>
 #include <internal.h>
 #include <controller.h>
 #include <idle.h>

@@ -18,6 +18,7 @@
 
 --*/
 
+#include <compat.h>
 #include <internal.h>
 #include <controller.h>
 #include <device.h>
@@ -120,6 +121,8 @@ OnInterruptIsr(
                 TRACE_REPORTING,
                 "No request pending from HIDClass, ignoring report - %!STATUS!",
                 status);
+
+
 
             continue;
         }
