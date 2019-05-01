@@ -1,22 +1,5 @@
-/*++
-    Copyright (c) Microsoft Corporation. All Rights Reserved. 
-    Sample code. Dealpoint ID #843729.
-
-    Module Name:
-
-        hid.c
-
-    Abstract:
-
-        Code for handling HID related requests
-
-    Environment:
-
-        Kernel mode
-
-    Revision History:
-
---*/
+// Copyright (c) Microsoft Corporation. All Rights Reserved. 
+// Copyright (c) Bingxing Wang. All Rights Reserved. 
 
 #include <compat.h>
 #include <internal.h>
@@ -24,104 +7,13 @@
 #include <hid.h>
 #include <hid.tmh>
 
-
 //
 // HID Report Descriptor for a touch device
 //
 
 const UCHAR gReportDescriptor[] = {
-    0x05, 0x0d,	                        // USAGE_PAGE (Digitizers)          
-    0x09, 0x04,	                        // USAGE (Touch Screen)             
-    0xa1, 0x01,                         // COLLECTION (Application)         
-    0x85, REPORTID_MTOUCH,              //   REPORT_ID (Touch)              
-    0x09, 0x22,                         //   USAGE (Finger)                 
-    0xa1, 0x02,                         //   COLLECTION (Logical)  
-    0x09, 0x42,                         //     USAGE (Tip Switch)           
-    0x15, 0x00,                         //     LOGICAL_MINIMUM (0)          
-    0x25, 0x01,                         //     LOGICAL_MAXIMUM (1)          
-    0x75, 0x01,                         //     REPORT_SIZE (1)              
-    0x95, 0x01,                         //     REPORT_COUNT (1)             
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs) 
-    0x95, 0x07,                         //     REPORT_COUNT (7)
-    0x81, 0x03,                         //       INPUT (Cnst,Ary,Abs)
-    0x75, 0x08,                         //     REPORT_SIZE (8)
-    0x09, 0x51,                         //     USAGE (Contact Identifier)
-    0x95, 0x01,                         //     REPORT_COUNT (1)             
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs) 
-    0x05, 0x01,                         //     USAGE_PAGE (Generic Desk..
-    0x26, 0xA0, 0x05,                   //     LOGICAL_MAXIMUM (1440)        NOTE: ADJUST LOGICAL MAXIMUM FOR X BASED ON TOUCH SCREEN RESOLUTION!
-    0x75, 0x10,                         //     REPORT_SIZE (16)             
-    0x55, 0x0e,                         //     UNIT_EXPONENT (-2)           
-    0x65, 0x13,                         //     UNIT (Inch,EngLinear)
-    0x09, 0x30,                         //     USAGE (X)                    
-    0x35, 0x00,                         //     PHYSICAL_MINIMUM (0)         
-    0x46, 0x1b, 0x01,                   //     PHYSICAL_MAXIMUM (283)       NOTE: ADJUST PHYSICAL MAXIMUM FOR X BASED ON TOUCH SCREEN DIMENSION (100ths of an inch)!
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs)         
-    0x46, 0xf0, 0x01,                   //     PHYSICAL_MAXIMUM (496)       NOTE: ADJUST PHYSICAL MAXIMUM FOR Y BASED ON TOUCH SCREEN DIMENSION (100ths of an inch)!
-    0x26, 0x00, 0x0a,                   //     LOGICAL_MAXIMUM (2560)       NOTE: ADJUST LOGICAL MAXIMUM FOR Y BASED ON TOUCH SCREEN RESOLUTION!
-    0x09, 0x31,                         //     USAGE (Y)                
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs)
-    0xc0,                               //   END_COLLECTION
-    0xa1, 0x02,                         //   COLLECTION (Logical)  
-    0x05, 0x0d,	                        //     USAGE_PAGE (Digitizers)  
-    0x09, 0x42,                         //     USAGE (Tip Switch)           
-    0x15, 0x00,                         //     LOGICAL_MINIMUM (0)          
-    0x25, 0x01,                         //     LOGICAL_MAXIMUM (1)          
-    0x75, 0x01,                         //     REPORT_SIZE (1)              
-    0x95, 0x01,                         //     REPORT_COUNT (1)             
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs) 
-    0x95, 0x07,                         //     REPORT_COUNT (7)
-    0x81, 0x03,                         //       INPUT (Cnst,Ary,Abs)
-    0x75, 0x08,                         //     REPORT_SIZE (8)
-    0x09, 0x51,                         //     USAGE (Contact Identifier)
-    0x95, 0x01,                         //     REPORT_COUNT (1)             
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs) 
-    0x05, 0x01,                         //     USAGE_PAGE (Generic Desk..
-    0x26, 0xA0, 0x05,                   //     LOGICAL_MAXIMUM (1440)            NOTE: ADJUST LOGICAL MAXIMUM FOR X BASED ON TOUCH SCREEN RESOLUTION!
-    0x75, 0x10,                         //     REPORT_SIZE (16)             
-    0x55, 0x0e,                         //     UNIT_EXPONENT (-2)           
-    0x65, 0x13,                         //     UNIT (Inch,EngLinear)
-    0x09, 0x30,                         //     USAGE (X)                    
-    0x35, 0x00,                         //     PHYSICAL_MINIMUM (0)         
-    0x46, 0x1b, 0x01,                   //     PHYSICAL_MAXIMUM (283)       NOTE: ADJUST PHYSICAL MAXIMUM FOR X BASED ON TOUCH SCREEN DIMENSION (100ths of an inch)!
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs)         
-    0x46, 0xf0, 0x01,                   //     PHYSICAL_MAXIMUM (496)       NOTE: ADJUST PHYSICAL MAXIMUM FOR Y BASED ON TOUCH SCREEN DIMENSION (100ths of an inch)!
-    0x26, 0x00, 0x0a,                   //     LOGICAL_MAXIMUM (2560)       NOTE: ADJUST LOGICAL MAXIMUM FOR Y BASED ON TOUCH SCREEN RESOLUTION!
-    0x09, 0x31,                         //     USAGE (Y)                    
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs)
-    0xc0,                               //   END_COLLECTION
-    0x05, 0x0d,	                        //   USAGE_PAGE (Digitizers)    
-    0x09, 0x54,	                        //   USAGE (Actual count)
-    0x95, 0x01,                         //   REPORT_COUNT (1)
-    0x75, 0x08,                         //   REPORT_SIZE (8)    
-    0x81, 0x02,                         //     INPUT (Data,Var,Abs)
-    0x55, 0x0C,                         //   UNIT_EXPONENT (-4)
-    0x66, 0x01, 0x10,                   //   UNIT (Seconds)
-    0x47, 0xff, 0xff, 0x00, 0x00,       //   PHYSICAL_MAXIMUM (65535)
-    0x27, 0xff, 0xff, 0x00, 0x00,       //   LOGICAL_MAXIMUM (65535)
-    0x09, 0x56,                         //   USAGE (Scan Time)
-    0x95, 0x01,                         //   REPORT_COUNT (1)
-    0x75, 0x10,                         //   REPORT_SIZE (16)
-    0x81, 0x02,                         //     INPUT (Data,Var,Abs)
-    0x85, REPORTID_MAX_COUNT,           //   REPORT_ID (Feature)              
-    0x09, 0x55,                         //   USAGE(Maximum Count)
-    0x25, 0x02,                         //   LOGICAL_MAXIMUM (2)
-    0xb1, 0x02,                         //   FEATURE (Data,Var,Abs) 
-    0xc0,                               // END_COLLECTION
-    0x09, 0x0E,                         // USAGE (Configuration)
-    0xa1, 0x01,                         // COLLECTION (Application)
-    0x85, REPORTID_FEATURE,             //   REPORT_ID (Feature)
-    0x09, 0x22,                         //   USAGE (Finger)              
-    0xa1, 0x00,                         //   COLLECTION (physical)
-    0x09, 0x52,                         //     USAGE (Input Mode)         
-    0x09, 0x53,                         //     USAGE (Device Index
-    0x15, 0x00,                         //     LOGICAL_MINIMUM (0)      
-    0x25, 0x0a,                         //     LOGICAL_MAXIMUM (10)
-    0x75, 0x08,                         //     REPORT_SIZE (8)         
-    0x95, 0x02,                         //     REPORT_COUNT (2)         
-    0xb1, 0x02,                         //     FEATURE (Data,Var,Abs)
-    0xc0,                               //   END_COLLECTION
-    0xc0,                               // END_COLLECTION
+	SYNAPTICS_TOUCHSCREEN_TLC,
+	SYNAPTICS_CONFIGURATION_TLC
 };
 const ULONG gdwcbReportDescriptor = sizeof(gReportDescriptor);
 
@@ -199,7 +91,7 @@ Return Value:
     //
     if (devContext->ServiceInterruptsAfterD0Entry == TRUE)
     {
-        HID_INPUT_REPORT hidReport;
+		PTP_REPORT ptpReport;
         BOOLEAN servicingComplete = FALSE;
 
         while (servicingComplete == FALSE)
@@ -207,7 +99,7 @@ Return Value:
             TchServiceInterrupts(
                 devContext->TouchContext,
                 &devContext->I2CContext,
-                &hidReport,
+                &ptpReport,
                 devContext->InputMode,
                 &servicingComplete);
         }
@@ -585,33 +477,87 @@ Return Value:
 
     switch (*(PUCHAR)featurePacket->reportBuffer)
     {
-        case REPORTID_FEATURE:
-        {
-            PHID_FEATURE_REPORT inputModeReport =
-                (PHID_FEATURE_REPORT) featurePacket->reportBuffer;
+		case REPORTID_REPORTMODE:
+		{
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_REPORTMODE is requested"
+			);
 
-            if (featurePacket->reportBufferLen < sizeof(HID_FEATURE_REPORT))
-            {
-                status = STATUS_BUFFER_TOO_SMALL;
-                goto exit;
-            }
+			PPTP_DEVICE_INPUT_MODE_REPORT DeviceInputMode = (PPTP_DEVICE_INPUT_MODE_REPORT) featurePacket->reportBuffer;
+			switch (DeviceInputMode->Mode)
+			{
+			case PTP_COLLECTION_MOUSE:
+			{
+				Trace(
+					TRACE_LEVEL_INFORMATION,
+					TRACE_DRIVER,
+					"%!FUNC! Report REPORTID_REPORTMODE requested Mouse Input"
+				);
 
-            if (inputModeReport->InputMode == MODE_MULTI_TOUCH)
-            {
-                devContext->InputMode = inputModeReport->InputMode;
-            }
-            else
-            {
-                status = STATUS_INVALID_PARAMETER;
-                goto exit;
-            }
+				devContext->PtpInputOn = FALSE;
+				break;
+			}
+			case PTP_COLLECTION_WINDOWS:
+			{
 
-            break;
-        }
+				Trace(
+					TRACE_LEVEL_INFORMATION,
+					TRACE_DRIVER,
+					"%!FUNC! Report REPORTID_REPORTMODE requested Windows PTP Input"
+				);
 
+				devContext->PtpInputOn = TRUE;
+				break;
+			}
+			}
+
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_REPORTMODE is fulfilled"
+			);
+			break;
+		}
+		case REPORTID_FUNCSWITCH:
+		{
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_FUNCSWITCH is requested"
+			);
+
+			PPTP_DEVICE_SELECTIVE_REPORT_MODE_REPORT InputSelection = (PPTP_DEVICE_SELECTIVE_REPORT_MODE_REPORT) featurePacket->reportBuffer;
+			devContext->PtpReportButton = InputSelection->ButtonReport;
+			devContext->PtpReportTouch = InputSelection->SurfaceReport;
+
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_FUNCSWITCH requested Button = %d, Surface = %d",
+				InputSelection->ButtonReport,
+				InputSelection->SurfaceReport
+			);
+
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_FUNCSWITCH is fulfilled"
+			);
+
+			break;
+		}
         default:
         {
-            status = STATUS_INVALID_PARAMETER;
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Unsupported type %d is requested",
+				featurePacket->reportId
+			);
+
+            status = STATUS_NOT_SUPPORTED;
             goto exit;
         }
     }
@@ -647,6 +593,7 @@ Return Value:
     PHID_XFER_PACKET featurePacket;
     WDF_REQUEST_PARAMETERS params;
     NTSTATUS status;
+	size_t ReportSize;
     
     devContext = GetDeviceContext(Device);
     status = STATUS_SUCCESS;
@@ -680,43 +627,98 @@ Return Value:
 
     switch (*(PUCHAR)featurePacket->reportBuffer)
     {
-        case REPORTID_FEATURE:
-        {
-            PHID_FEATURE_REPORT inputModeReport = 
-                (PHID_FEATURE_REPORT) featurePacket->reportBuffer;
+		case REPORTID_DEVICE_CAPS:
+		{
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_DEVICE_CAPS is requested"
+			);
 
-            if (featurePacket->reportBufferLen < sizeof(HID_FEATURE_REPORT))
-            {
-                status = STATUS_BUFFER_TOO_SMALL;
-                goto exit;
-            }
+			// Size sanity check
+			ReportSize = sizeof(PTP_DEVICE_CAPS_FEATURE_REPORT);
+			if (featurePacket->reportBufferLen < ReportSize) {
+				status = STATUS_INVALID_BUFFER_SIZE;
+				Trace(
+					TRACE_LEVEL_ERROR,
+					TRACE_DRIVER,
+					"%!FUNC! Report buffer is too small"
+				);
+				goto exit;
+			}
 
-            inputModeReport->InputMode = devContext->InputMode;
+			PPTP_DEVICE_CAPS_FEATURE_REPORT capsReport = (PPTP_DEVICE_CAPS_FEATURE_REPORT) featurePacket->reportBuffer;
 
-            break;
-        }
+			capsReport->MaximumContactPoints = PTP_MAX_CONTACT_POINTS;
+			capsReport->ButtonType = PTP_BUTTON_TYPE_CLICK_PAD;
+			capsReport->ReportID = REPORTID_DEVICE_CAPS;
 
-        case REPORTID_MAX_COUNT:
-        {
-            PHID_MAX_COUNT_REPORT maxCountReport = 
-                (PHID_MAX_COUNT_REPORT) featurePacket->reportBuffer;
-           
-            if (featurePacket->reportBufferLen < sizeof(HID_MAX_COUNT_REPORT))
-            {
-                status = STATUS_BUFFER_TOO_SMALL;
-                goto exit;
-            }
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_DEVICE_CAPS has maximum contact points of %d",
+				capsReport->MaximumContactPoints
+			);
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_DEVICE_CAPS has touchpad type %d",
+				capsReport->ButtonType
+			);
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_DEVICE_CAPS is fulfilled"
+			);
 
-            maxCountReport->MaxCount = OEM_MAX_TOUCHES;
+			break;
+		}
+		case REPORTID_PTPHQA:
+		{
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_PTPHQA is requested"
+			);
 
-            break;
-        }
+			// Size sanity check
+			ReportSize = sizeof(PTP_DEVICE_HQA_CERTIFICATION_REPORT);
+			if (featurePacket->reportBufferLen < ReportSize)
+			{
+				status = STATUS_INVALID_BUFFER_SIZE;
+				Trace(
+					TRACE_LEVEL_ERROR,
+					TRACE_DRIVER,
+					"%!FUNC! Report buffer is too small."
+				);
+				goto exit;
+			}
 
-        default:
-        {
-            status = STATUS_INVALID_PARAMETER;
-            goto exit;
-        }
+			PPTP_DEVICE_HQA_CERTIFICATION_REPORT certReport = (PPTP_DEVICE_HQA_CERTIFICATION_REPORT) featurePacket->reportBuffer;
+
+			*certReport->CertificationBlob = DEFAULT_PTP_HQA_BLOB;
+			certReport->ReportID = REPORTID_PTPHQA;
+
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Report REPORTID_PTPHQA is fulfilled"
+			);
+
+			break;
+		}
+		default:
+		{
+			Trace(
+				TRACE_LEVEL_INFORMATION,
+				TRACE_DRIVER,
+				"%!FUNC! Unsupported type %d is requested",
+				featurePacket->reportId
+			);
+
+			status = STATUS_NOT_SUPPORTED;
+			goto exit;
+		}
     }
 
 exit:

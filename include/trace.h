@@ -1,22 +1,5 @@
-/*++
-    Copyright (c) Microsoft Corporation. All Rights Reserved. 
-    Sample code. Dealpoint ID #843729.
-
-    Module Name:
-
-        trace.h
-
-    Abstract:
-
-        Contains prototypes and definitions related to debugging/tracing
-
-    Environment:
-
-        Kernel mode
-
-    Revision History:
-
---*/
+// Copyright (c) Microsoft Corporation. All Rights Reserved. 
+// Copyright (c) Bingxing Wang. All Rights Reserved. 
 
 #pragma once
 
@@ -41,6 +24,7 @@
         WPP_DEFINE_BIT(TRACE_SAMPLES)       \
         WPP_DEFINE_BIT(TRACE_OTHER)         \
         WPP_DEFINE_BIT(TRACE_IDLE)          \
+		WPP_DEFINE_BIT(TRACE_DRIVER)		\
         )
 
 #define WPP_FLAG_LEVEL_LOGGER(flag, level)                                  \

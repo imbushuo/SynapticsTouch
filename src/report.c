@@ -1,26 +1,10 @@
-/*++
-    Copyright (c) Microsoft Corporation. All Rights Reserved. 
-    Sample code. Dealpoint ID #843729.
-
-    Module Name:
-
-        report.c
-
-    Abstract:
-
-        Contains Synaptics specific code for reporting samples
-
-    Environment:
-
-        Kernel mode
-
-    Revision History:
-
---*/
+// Copyright (c) Microsoft Corporation. All Rights Reserved. 
+// Copyright (c) Bingxing Wang. All Rights Reserved. 
 
 #include <compat.h>
 #include <controller.h>
 #include <rmiinternal.h>
+#include <HidCommon.h>
 #include <spb.h>
 #include <report.tmh>
 
@@ -31,120 +15,6 @@ const USHORT gOEMVersionID = 3400;
 const PWSTR gpwstrManufacturerID = L"Synaptics";
 const PWSTR gpwstrProductID = L"3400";
 const PWSTR gpwstrSerialNumber = L"4";
-
-NTSTATUS
-RmiServiceCapacitiveButtonInterrupt(
-    IN RMI4_CONTROLLER_CONTEXT* ControllerContext,
-    IN SPB_CONTEXT* SpbContext,
-    IN PHID_INPUT_REPORT HidReport
-    )
-/*++
-
-Routine Description:
-
-    This routine services capacitive button (F$1A) interrupts, it reads
-    button data and fills a HID keyboard report with the relevant information
-
-Arguments:
-
-    ControllerContext - Touch controller context
-    SpbContext - A pointer to the current i2c context
-    HidReport- A HID report buffer to be filled with button data
-
-Return Value:
-
-    NTSTATUS, where success indicates the request memory was updated with
-    button press information.
-
---*/
-{
-    RMI4_F1A_DATA_REGISTERS dataF1A;
-    PHID_KEY_REPORT hidKeys;
-    int index;
-    NTSTATUS status;
-
-    //
-    // If the controller doesn't support buttons, ignore this interrupt
-    //
-    if (ControllerContext->HasButtons == FALSE)
-    {
-        status = STATUS_NOT_IMPLEMENTED;
-        goto exit;
-    }
-
-    //
-    // Get the the key press/release information from the controller
-    //
-    index = RmiGetFunctionIndex(
-        ControllerContext->Descriptors,
-        ControllerContext->FunctionCount,
-        RMI4_F1A_0D_CAP_BUTTON_SENSOR);
-
-    if (index == ControllerContext->FunctionCount)
-    {
-        Trace(
-            TRACE_LEVEL_ERROR,
-            TRACE_INIT,
-            "Unexpected - RMI Function 1A missing");
-
-        status = STATUS_INVALID_DEVICE_STATE;
-        goto exit;
-    }
-
-    status = RmiChangePage(
-        ControllerContext,
-        SpbContext,
-        ControllerContext->FunctionOnPage[index]);
-
-    if (!NT_SUCCESS(status))
-    {
-        Trace(
-            TRACE_LEVEL_ERROR,
-            TRACE_INIT,
-            "Could not change register page");
-
-        goto exit;
-    }
-
-    //
-    // Read button press/release data
-    // 
-    status = SpbReadDataSynchronously(
-        SpbContext,
-        ControllerContext->Descriptors[index].DataBase,
-        &dataF1A,
-        sizeof(dataF1A));
-
-    if (!NT_SUCCESS(status))
-    {
-        Trace(
-            TRACE_LEVEL_ERROR,
-            TRACE_INTERRUPT,
-            "Error reading finger status data - %!STATUS!",
-            status);
-
-        goto exit;
-    }
-
-    RtlZeroMemory(HidReport, sizeof(HID_INPUT_REPORT));
-
-    //
-    // Update button states. This mapping should be made registry configurable
-    //
-    HidReport->ReportID = REPORTID_CAPKEY;
-    hidKeys = &(HidReport->KeyReport);
-    hidKeys->InputReport.bKeys |= (dataF1A.Button0) ? KEY_DOWN_SEARCH : 0;
-    hidKeys->InputReport.bKeys |= (dataF1A.Button1) ? KEY_DOWN_START  : 0;
-    hidKeys->InputReport.bKeys |= (dataF1A.Button2) ? KEY_DOWN_BACK   : 0;
-
-    //
-    // On return of success, this request will be completed up the stack
-    //
-
-exit:
-
-    return status;
-}
 
 NTSTATUS
 RmiGetTouchesFromController(
@@ -255,7 +125,7 @@ Return Value:
 
 	if (data1 != NULL)
 	{
-		for (i = 0; i < controller->MaxFingers; i++) 
+		for (i = 0; i < min(controller->MaxFingers, 5); i++)
 		{
 			switch (data1[0]) 
 			{
@@ -465,7 +335,7 @@ Return Value:
 
 VOID
 RmiFillNextHidReportFromCache(
-    IN PHID_INPUT_REPORT HidReport,
+    IN PPTP_REPORT HidReport,
     IN RMI4_FINGER_CACHE *Cache,
     IN PTOUCH_SCREEN_PROPERTIES Props,
     IN int *TouchesReported,
@@ -475,7 +345,7 @@ RmiFillNextHidReportFromCache(
 
 Routine Description:
 
-    This routine fills a HID report with the next one or two touch entries in
+    This routine fills a HID report with the next touch entries in
     the local device finger cache. 
 
     The routine also adjusts X/Y coordinates to match the desired display
@@ -497,99 +367,62 @@ Return Value:
 
 --*/
 {
-    PHID_TOUCH_REPORT hidTouch = NULL;
     int currentlyReporting;
+	int fingersToReport = min(TouchesTotal, 5);
+	USHORT SctatchX = 0, ScratchY = 0;
 
-    HidReport->ReportID = REPORTID_MTOUCH;
-    hidTouch = &(HidReport->TouchReport);
+    HidReport->ReportID = REPORTID_MULTITOUCH;
 
     //
     // There are only 16-bits for ScanTime, truncate it
     //
-    hidTouch->InputReport.ScanTime = Cache->ScanTime & 0xFFFF;
+	HidReport->ScanTime = Cache->ScanTime & 0xFFFF;
+
+	//
+	// No button in our context
+	// 
+	HidReport->IsButtonClicked = FALSE;
 
     //
-    // Report the next available finger
+    // Report the count
     //
-    currentlyReporting = Cache->FingerDownOrder[*TouchesReported];
+	(*TouchesReported) = fingersToReport;
+	HidReport->ContactCount = (UCHAR) fingersToReport;
 
-    hidTouch->InputReport.ContactId = (UCHAR) currentlyReporting;
-    hidTouch->InputReport.wXData = (USHORT) Cache->FingerSlot[currentlyReporting].x;
-    hidTouch->InputReport.wYData = (USHORT) Cache->FingerSlot[currentlyReporting].y;
+	//
+	// Only five fingers supported yet
+	//
+	for (currentlyReporting = 0; currentlyReporting < fingersToReport; currentlyReporting++)
+	{
+		HidReport->Contacts[currentlyReporting].ContactID = (UCHAR)currentlyReporting;
+		SctatchX = (USHORT)Cache->FingerSlot[currentlyReporting].x;
+		ScratchY = (USHORT)Cache->FingerSlot[currentlyReporting].y;
+		HidReport->Contacts[currentlyReporting].Confidence = 1;
 
-    //
-    // Perform per-platform x/y adjustments to controller coordinates
-    //
-    TchTranslateToDisplayCoordinates(
-        &hidTouch->InputReport.wXData,
-        &hidTouch->InputReport.wYData,
-        Props);
+		//
+		// Perform per-platform x/y adjustments to controller coordinates
+		//
+		TchTranslateToDisplayCoordinates(
+			&SctatchX,
+			&ScratchY,
+			Props);
 
-    if (Cache->FingerSlot[currentlyReporting].fingerStatus)
-    {
-        hidTouch->InputReport.bStatus = FINGER_STATUS;
-    }
+		HidReport->Contacts[currentlyReporting].X = SctatchX;
+		HidReport->Contacts[currentlyReporting].Y = ScratchY;
 
-    (*TouchesReported)++;
+		if (Cache->FingerSlot[currentlyReporting].fingerStatus)
+		{
+			HidReport->Contacts[currentlyReporting].TipSwitch = FINGER_STATUS;
+		}
 
-    //
-    // A single HID report can contain two touches, so see if there's more
-    //
-    if (TouchesTotal - *TouchesReported > 0)
-    {
-        currentlyReporting = Cache->FingerDownOrder[*TouchesReported];
-
-        hidTouch->InputReport.ContactId2 = (UCHAR) currentlyReporting;
-        hidTouch->InputReport.wXData2 = (USHORT) Cache->FingerSlot[currentlyReporting].x;
-        hidTouch->InputReport.wYData2 = (USHORT) Cache->FingerSlot[currentlyReporting].y;
-
-        //
-        // Perform per-platform x/y adjustments to controller coordinates
-        //
-        TchTranslateToDisplayCoordinates(
-            &hidTouch->InputReport.wXData2,
-            &hidTouch->InputReport.wYData2,
-            Props);
-
-        if (Cache->FingerSlot[currentlyReporting].fingerStatus)
-        {
-            hidTouch->InputReport.bStatus2 = FINGER_STATUS;
-        }
-
-        (*TouchesReported)++;
-    }
-
-    //
-    // Though a single HID report can contain up to two touches, but more
-    // can be on the screen, ActualCount reflects the total number
-    // of touches that will be reported when the first report (of possibly
-    // many) is sent up
-    //
-    if (*TouchesReported == 1 || *TouchesReported == 2)
-    {
-        hidTouch->InputReport.ActualCount = (UCHAR) TouchesTotal;
-    }
-
-    Trace(
-        TRACE_LEVEL_INFORMATION,
-        TRACE_REPORTING,
-        "ActualCount %d, Touch0 ContactId %u X %u Y %u Tip %u, Touch1 ContactId %u X %u Y %u Tip %u",
-        hidTouch->InputReport.ActualCount,
-        hidTouch->InputReport.ContactId,
-        hidTouch->InputReport.wXData,
-        hidTouch->InputReport.wYData,
-        hidTouch->InputReport.bStatus,
-        hidTouch->InputReport.ContactId2,
-        hidTouch->InputReport.wXData2,
-        hidTouch->InputReport.wYData2,
-        hidTouch->InputReport.bStatus2);
+	}
 }
 
 NTSTATUS
 RmiServiceTouchDataInterrupt(
     IN RMI4_CONTROLLER_CONTEXT* ControllerContext,
     IN SPB_CONTEXT* SpbContext,
-    IN PHID_INPUT_REPORT HidReport,
+    IN PPTP_REPORT HidReport,
     IN UCHAR InputMode,
     OUT BOOLEAN* PendingTouches
     )
@@ -597,9 +430,7 @@ RmiServiceTouchDataInterrupt(
 
 Routine Description:
 
-    Called when a touch interrupt needs service. Because we fill HID reports
-    with two touches at a time, if more than two touches were read from
-    hardware, we may need to complete this request from local cached state.
+    Called when a touch interrupt needs service.
 
 Arguments:
 
@@ -621,6 +452,8 @@ Return Value:
 {
     RMI4_F11_DATA_REGISTERS data;
     NTSTATUS status;
+
+	UNREFERENCED_PARAMETER(InputMode);
 
     status = STATUS_SUCCESS;
     RtlZeroMemory(&data, sizeof(data));
@@ -678,44 +511,22 @@ Return Value:
         }
     }
 
-    RtlZeroMemory(HidReport, sizeof(HID_INPUT_REPORT));
+    RtlZeroMemory(HidReport, sizeof(PTP_REPORT));
 
     //
-    // Single-finger and HID-mouse input modes not implemented
-    //
-    if (MODE_MULTI_TOUCH != InputMode)
-    {
-        Trace(
-            TRACE_LEVEL_VERBOSE,
-            TRACE_SAMPLES,
-            "Unable to report touches, only multitouch mode is supported");
-
-        status = STATUS_NOT_IMPLEMENTED;
-        goto exit;
-    }
-
-    //
-    // Fill report with the next (max of two) cached touches
+    // Fill report with the next cached touches
     //
     RmiFillNextHidReportFromCache(
         HidReport,
         &ControllerContext->Cache,
         &ControllerContext->Props,
         &ControllerContext->TouchesReported,
-        ControllerContext->TouchesTotal
-        );
+        ControllerContext->TouchesTotal);
 
     //
-    // Update the caller if we still have outstanding touches to report
+    // We now report all at once
     //
-    if (ControllerContext->TouchesReported < ControllerContext->TouchesTotal)
-    {
-        *PendingTouches = TRUE;       
-    }
-    else
-    {
-        *PendingTouches = FALSE;
-    }
+	*PendingTouches = FALSE;
 
 exit:
     
@@ -727,7 +538,7 @@ NTSTATUS
 TchServiceInterrupts(
     IN VOID *ControllerContext,
     IN SPB_CONTEXT *SpbContext,
-    IN PHID_INPUT_REPORT HidReport,
+    IN PPTP_REPORT HidReport,
     IN UCHAR InputMode,
     IN BOOLEAN *ServicingComplete
     )
@@ -821,36 +632,6 @@ Return Value:
     status = STATUS_UNSUCCESSFUL;
 
     //
-    // Service a capacitive button event if indicated by hardware
-    //
-    if (controller->InterruptStatus & RMI4_INTERRUPT_BIT_0D_CAP_BUTTON)
-    {
-        status = RmiServiceCapacitiveButtonInterrupt(
-            ControllerContext,
-            SpbContext,
-            HidReport);
-
-        controller->InterruptStatus &= ~RMI4_INTERRUPT_BIT_0D_CAP_BUTTON;
-
-        //
-        // Success indicates the report is ready to be sent, otherwise,
-        // continue to service interrupts.
-        //
-        if (NT_SUCCESS(status))
-        {
-            goto exit;
-        }
-        else
-        {
-            Trace(
-                TRACE_LEVEL_ERROR,
-                TRACE_INTERRUPT,
-                "Error processing cap button event - %!STATUS!",
-                status);
-        }
-    }
-
-    //
     // Service a touch data event if indicated by hardware 
     //
     if (controller->InterruptStatus & RMI4_INTERRUPT_BIT_2D_TOUCH)
@@ -863,7 +644,6 @@ Return Value:
 			HidReport,
 			InputMode,
 			&pendingTouches);
-
 
         //
         // If there are more touches to report, servicing is incomplete

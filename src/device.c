@@ -1,22 +1,5 @@
-/*++
-    Copyright (c) Microsoft Corporation. All Rights Reserved. 
-    Sample code. Dealpoint ID #843729.
-
-    Module Name:
-
-        device.c
-
-    Abstract:
-
-        Code for handling WDF device-specific requests
-
-    Environment:
-
-        Kernel mode
-
-    Revision History:
-
---*/
+// Copyright (c) Microsoft Corporation. All Rights Reserved. 
+// Copyright (c) Bingxing Wang. All Rights Reserved. 
 
 #include <compat.h>
 #include <internal.h>
@@ -62,8 +45,8 @@ OnInterruptIsr(
     NTSTATUS status;
     WDFREQUEST request;
     BOOLEAN servicingComplete;
-    HID_INPUT_REPORT hidReportFromDriver;
-    PHID_INPUT_REPORT hidReportRequestBuffer;
+    PTP_REPORT hidReportFromDriver;
+    PPTP_REPORT hidReportRequestBuffer;
     size_t hidReportRequestBufferLength;
 
     UNREFERENCED_PARAMETER(MessageID);
@@ -132,7 +115,7 @@ OnInterruptIsr(
         //
         status = WdfRequestRetrieveOutputBuffer(
             request,
-            sizeof(HID_INPUT_REPORT),
+            sizeof(PTP_REPORT),
             &hidReportRequestBuffer,
             &hidReportRequestBufferLength);
 
@@ -149,7 +132,7 @@ OnInterruptIsr(
             //
             // Validate the size of the output buffer
             //
-            if (hidReportRequestBufferLength < sizeof(HID_INPUT_REPORT))
+            if (hidReportRequestBufferLength < sizeof(PTP_REPORT))
             {
                 status = STATUS_BUFFER_TOO_SMALL;
     
@@ -165,9 +148,9 @@ OnInterruptIsr(
                 RtlCopyMemory(
                     hidReportRequestBuffer,
                     &hidReportFromDriver,
-                    sizeof(HID_INPUT_REPORT));
+                    sizeof(PTP_REPORT));
 
-                WdfRequestSetInformation(request, sizeof(HID_INPUT_REPORT));
+                WdfRequestSetInformation(request, sizeof(PTP_REPORT));
             }
         }
 
