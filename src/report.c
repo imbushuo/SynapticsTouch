@@ -369,6 +369,7 @@ Return Value:
 {
     int currentlyReporting;
 	int fingersToReport = min(TouchesTotal, 5);
+	USHORT SctatchX = 0, ScratchY = 0;
 
     HidReport->ReportID = REPORTID_MULTITOUCH;
 
@@ -394,17 +395,20 @@ Return Value:
 	for (currentlyReporting = 0; currentlyReporting < fingersToReport; currentlyReporting++)
 	{
 		HidReport->Contacts[currentlyReporting].ContactID = (UCHAR)currentlyReporting;
-		HidReport->Contacts[currentlyReporting].X = (USHORT)Cache->FingerSlot[currentlyReporting].x;
-		HidReport->Contacts[currentlyReporting].Y = (USHORT)Cache->FingerSlot[currentlyReporting].y;
+		SctatchX = (USHORT)Cache->FingerSlot[currentlyReporting].x;
+		ScratchY = (USHORT)Cache->FingerSlot[currentlyReporting].y;
 		HidReport->Contacts[currentlyReporting].Confidence = 1;
 
 		//
 		// Perform per-platform x/y adjustments to controller coordinates
 		//
 		TchTranslateToDisplayCoordinates(
-			&HidReport->Contacts[currentlyReporting].X,
-			&HidReport->Contacts[currentlyReporting].Y,
+			&SctatchX,
+			&ScratchY,
 			Props);
+
+		HidReport->Contacts[currentlyReporting].X = SctatchX;
+		HidReport->Contacts[currentlyReporting].Y = ScratchY;
 
 		if (Cache->FingerSlot[currentlyReporting].fingerStatus)
 		{
