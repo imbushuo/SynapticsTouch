@@ -4,5 +4,4 @@
 #define __COMPAT_H__
 
 
-
 #endif

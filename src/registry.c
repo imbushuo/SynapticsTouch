@@ -20,6 +20,7 @@
 
 --*/
 
+#include <compat.h>
 #include <rmiinternal.h>
 #include <registry.tmh>
 

@@ -18,6 +18,7 @@
 
 --*/
 
+#include <compat.h>
 #include <rmiinternal.h>
 #include <spb.h>
 #include <init.tmh>

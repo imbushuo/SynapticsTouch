@@ -401,22 +401,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Inf Exclude="@(Inf)" Include="..\src\*.inf" />
+    <Inf Exclude="@(Inf)" Include="..\src\SynapticsTouch.inf" />
     <FilesToPackage Include="$(TargetPath)" Condition="'$(ConfigurationType)'=='Driver' or '$(ConfigurationType)'=='DynamicLibrary'" />
   </ItemGroup>
   <ItemGroup>
-    <None Exclude="@(None)" Include="*.txt;*.htm;*.html" />
-    <None Exclude="@(None)" Include="*.ico;*.cur;*.bmp;*.dlg;*.rct;*.gif;*.jpg;*.jpeg;*.wav;*.jpe;*.tiff;*.tif;*.png;*.rc2" />
-    <None Exclude="@(None)" Include="*.def;*.bat;*.hpj;*.asmx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Exclude="@(ClInclude)" Include="*.h;*.hpp;*.hxx;*.hm;*.inl;*.xsd" />
+    <ClCompile Include="..\src\bitops.c" />
+    <ClCompile Include="..\src\device.c" />
+    <ClCompile Include="..\src\driver.c" />
+    <ClCompile Include="..\src\hid.c" />
+    <ClCompile Include="..\src\hweight.c" />
+    <ClCompile Include="..\src\idle.c" />
+    <ClCompile Include="..\src\init.c" />
+    <ClCompile Include="..\src\power.c" />
+    <ClCompile Include="..\src\queue.c" />
+    <ClCompile Include="..\src\registry.c" />
+    <ClCompile Include="..\src\report.c" />
+    <ClCompile Include="..\src\resolutions.c" />
+    <ClCompile Include="..\src\spb.c" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\Resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\*.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

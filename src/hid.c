@@ -18,6 +18,7 @@
 
 --*/
 
+#include <compat.h>
 #include <internal.h>
 #include <controller.h>
 #include <hid.h>
@@ -27,10 +28,6 @@
 //
 // HID Report Descriptor for a touch device
 //
-
-#ifndef _SAMPLE_DESCRIPTOR_
-#error This HID descriptor only works for a touch screen with resolution = 768 x 1280 and dimensions = 2.32" x 3.82"
-#endif
 
 const UCHAR gReportDescriptor[] = {
     0x05, 0x0d,	                        // USAGE_PAGE (Digitizers)          
@@ -124,50 +121,6 @@ const UCHAR gReportDescriptor[] = {
     0x95, 0x02,                         //     REPORT_COUNT (2)         
     0xb1, 0x02,                         //     FEATURE (Data,Var,Abs)
     0xc0,                               //   END_COLLECTION
-    0xc0,                               // END_COLLECTION
-    0x05, 0x01,                         // USAGE_PAGE (Generic Desktop)
-#ifdef HID_MOUSE_PATH_SUPPORT
-    0x09, 0x02,                         // USAGE (Mouse)
-    0xa1, 0x01,                         // COLLECTION (Application)
-    0x85, REPORTID_MOUSE,               //   REPORT_ID (Mouse)
-    0x09, 0x01,                         //   USAGE (Pointer)
-    0xa1, 0x00,                         //   COLLECTION (Physical)
-    0x05, 0x09,                         //     USAGE_PAGE (Button)
-    0x19, 0x01,                         //     USAGE_MINIMUM (Button 1)
-    0x29, 0x02,                         //     USAGE_MAXIMUM (Button 2)
-    0x15, 0x00,                         //     LOGICAL_MINIMUM (0)
-    0x25, 0x01,                         //     LOGICAL_MAXIMUM (1)
-    0x75, 0x01,                         //     REPORT_SIZE (1)
-    0x95, 0x02,                         //     REPORT_COUNT (2)
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs)
-    0x95, 0x06,                         //     REPORT_COUNT (6)
-    0x81, 0x03,                         //       INPUT (Cnst,Var,Abs)
-    0x05, 0x01,                         //     USAGE_PAGE (Generic Desktop)
-    0x09, 0x30,                         //     USAGE (X)
-    0x09, 0x31,                         //     USAGE (Y)
-    0x75, 0x10,                         //     REPORT_SIZE (16)
-    0x95, 0x02,                         //     REPORT_COUNT (2)
-    0x15, 0x00,                         //     LOGICAL_MINIMUM (0)
-    0x26, 0xff, 0x7f,                   //     LOGICAL_MAXIMUM (32767)
-    0x81, 0x02,                         //       INPUT (Data,Var,Abs)
-    0xc0,                               //   END_COLLECTION
-    0xc0,                               // END_COLLECTION
-#endif
-    0x05, 0x01,                         // USAGE_PAGE (Generic Desktop)
-    0x09, 0xEE,                         // USAGE (HID_USAGE_KEYBOARD_MOBILE)
-    0xa1, 0x01,                         // COLLECTION (Application)
-    0x85, REPORTID_CAPKEY,              //   REPORT_ID
-    0x05, 0x07,                         //   USAGE_PAGE (Key Codes)
-    0x09, 0x3B,                         //   USAGE(F2 Key)  - Start/Home
-    0x09, 0x3C,                         //   USAGE(F3 Key)  - Search
-    0x09, 0x29,                         //   USAGE(Esc Key) - Back
-    0x15, 0x00,                         //   LOGICAL_MINIMUM (0)
-    0x25, 0x01,                         //   LOGICAL_MAXIMUM (1)
-    0x75, 0x01,                         //   REPORT_SIZE (1)
-    0x95, 0x03,                         //   REPORT_COUNT (3)
-    0x81, 0x02,                         //   INPUT (Data,Var,Abs)
-    0x95, 0x1d,                         //   REPORT_COUNT (29)
-    0x81, 0x03,                         //   INPUT (Cnst,Var,Abs)
     0xc0,                               // END_COLLECTION
 };
 const ULONG gdwcbReportDescriptor = sizeof(gReportDescriptor);
@@ -643,8 +596,7 @@ Return Value:
                 goto exit;
             }
 
-            if ((inputModeReport->InputMode == MODE_MOUSE) ||
-                (inputModeReport->InputMode == MODE_MULTI_TOUCH))
+            if (inputModeReport->InputMode == MODE_MULTI_TOUCH)
             {
                 devContext->InputMode = inputModeReport->InputMode;
             }

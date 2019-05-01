@@ -18,6 +18,7 @@
 
 --*/
 
+#include <compat.h>
 #include <internal.h>
 #include <controller.h>
 #include <driver.h>

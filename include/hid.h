@@ -1,5 +1,6 @@
 /*++
     Copyright (c) Microsoft Corporation. All Rights Reserved. 
+	Copyright (c) Bingxing Wang. All Rights Reserved. 
     Sample code. Dealpoint ID #843729.
 
     Module Name:
