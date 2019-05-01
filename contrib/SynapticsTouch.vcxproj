@@ -208,7 +208,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
-      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4146;4214;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <WppEnabled>true</WppEnabled>
       <WppRecorderEnabled>true</WppRecorderEnabled>
       <WppScanConfigurationData>$(SolutionDir)..\include\trace.h</WppScanConfigurationData>
@@ -233,7 +233,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
-      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4146;4214;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <WppEnabled>true</WppEnabled>
       <WppRecorderEnabled>true</WppRecorderEnabled>
       <WppScanConfigurationData>$(SolutionDir)..\include\trace.h</WppScanConfigurationData>
@@ -258,7 +258,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
-      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4146;4214;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <WppEnabled>true</WppEnabled>
       <WppRecorderEnabled>true</WppRecorderEnabled>
       <WppScanConfigurationData>$(SolutionDir)..\include\trace.h</WppScanConfigurationData>
@@ -283,7 +283,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
-      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4146;4214;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <WppEnabled>true</WppEnabled>
       <WppRecorderEnabled>true</WppRecorderEnabled>
       <WppScanConfigurationData>$(SolutionDir)..\include\trace.h</WppScanConfigurationData>
@@ -308,7 +308,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
-      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4146;4214;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <WppEnabled>true</WppEnabled>
       <WppRecorderEnabled>true</WppRecorderEnabled>
       <WppScanConfigurationData>$(SolutionDir)..\include\trace.h</WppScanConfigurationData>
@@ -333,7 +333,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
-      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4146;4214;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <WppEnabled>true</WppEnabled>
       <WppRecorderEnabled>true</WppRecorderEnabled>
       <WppScanConfigurationData>$(SolutionDir)..\include\trace.h</WppScanConfigurationData>
@@ -358,7 +358,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
-      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4146;4214;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <WppEnabled>true</WppEnabled>
       <WppRecorderEnabled>true</WppRecorderEnabled>
       <WppScanConfigurationData>$(SolutionDir)..\include\trace.h</WppScanConfigurationData>
@@ -383,7 +383,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);.;$(DDK_INC_PATH);$(DDK_INC_PATH)\wdm\</AdditionalIncludeDirectories>
       <ExceptionHandling>
       </ExceptionHandling>
-      <DisableSpecificWarnings>4146;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4146;4214;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <WppEnabled>true</WppEnabled>
       <WppRecorderEnabled>true</WppRecorderEnabled>
       <WppScanConfigurationData>$(SolutionDir)..\include\trace.h</WppScanConfigurationData>
@@ -421,6 +421,24 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\bitops.h" />
+    <ClInclude Include="..\include\compat.h" />
+    <ClInclude Include="..\include\controller.h" />
+    <ClInclude Include="..\include\device.h" />
+    <ClInclude Include="..\include\driver.h" />
+    <ClInclude Include="..\include\hid.h" />
+    <ClInclude Include="..\include\HidCommon.h" />
+    <ClInclude Include="..\include\hweight.h" />
+    <ClInclude Include="..\include\idle.h" />
+    <ClInclude Include="..\include\internal.h" />
+    <ClInclude Include="..\include\queue.h" />
+    <ClInclude Include="..\include\resolutions.h" />
+    <ClInclude Include="..\include\resource.h" />
+    <ClInclude Include="..\include\rmiinternal.h" />
+    <ClInclude Include="..\include\spb.h" />
+    <ClInclude Include="..\include\trace.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

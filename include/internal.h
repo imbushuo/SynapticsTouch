@@ -1,23 +1,5 @@
-/*++
-    Copyright (c) Microsoft Corporation. All Rights Reserved. 
-    Sample code. Dealpoint ID #843729.
-
-    Module Name:
-
-        internal.h
-
-    Abstract:
-
-        Contains common types and defintions used internally
-        by the multi touch screen driver.
-
-    Environment:
-
-        Kernel mode
-
-    Revision History:
-
---*/
+// Copyright (c) Microsoft Corporation. All Rights Reserved. 
+// Copyright (c) Bingxing Wang. All Rights Reserved. 
 
 #pragma once
 
@@ -68,6 +50,13 @@ typedef struct _DEVICE_EXTENSION
     // Touch related members used for the lifetime of the device
     //
     VOID *TouchContext;
+
+	//
+	// PTP New
+	//
+	BOOLEAN PtpInputOn;
+	BOOLEAN PtpReportButton;
+	BOOLEAN PtpReportTouch;
 } DEVICE_EXTENSION, *PDEVICE_EXTENSION;
 
 WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(DEVICE_EXTENSION, GetDeviceContext)

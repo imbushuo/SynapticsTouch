@@ -13,6 +13,12 @@
     <Filter Include="Driver Files">
       <UniqueIdentifier>{25cea26e-6fe9-489d-9f3f-494d76c39c07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{fb139949-95da-4a79-9f64-ff14ea801e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Cross Platform Shim">
+      <UniqueIdentifier>{9686f0d4-e35c-4f82-a1bb-f9e1b58bf934}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\bitops.c">
@@ -64,5 +70,55 @@
     <Inf Include="..\src\SynapticsTouch.inf">
       <Filter>Driver Files</Filter>
     </Inf>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\device.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\driver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\hid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\idle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\resolutions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\rmiinternal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\spb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\bitops.h">
+      <Filter>Header Files\Cross Platform Shim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\compat.h">
+      <Filter>Header Files\Cross Platform Shim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\hweight.h">
+      <Filter>Header Files\Cross Platform Shim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\HidCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
