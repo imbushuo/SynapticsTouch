@@ -125,7 +125,7 @@ Return Value:
 
 	if (data1 != NULL)
 	{
-		for (i = 0; i < min(controller->MaxFingers, 5); i++)
+		for (i = 0; i < controller->MaxFingers; i++)
 		{
 			switch (data1[0]) 
 			{
@@ -146,14 +146,6 @@ Return Value:
 			Data->Finger[i].Y = y;
 
 			data1 += F12_DATA1_BYTES_PER_OBJ;
-		}
-
-		// Intentionally bugcheck to figure out issues
-		if (fingers >= 7)
-		{
-#ifdef INTENTIONAL_BUGCHECK_FOR_DIAGNOSTICS
-			KeBugCheckEx(SOC_SUBSYSTEM_FAILURE, 0, 0, 0, 0);
-#endif
 		}
 	}
 	else
@@ -367,8 +359,8 @@ Return Value:
 
 --*/
 {
-    int currentlyReporting;
-	int fingersToReport = min(TouchesTotal, 5);
+    int currentFingerIndex;
+	int fingersToReport = min(TouchesTotal - *TouchesReported, 5);
 	USHORT SctatchX = 0, ScratchY = 0;
 
     HidReport->ReportID = REPORTID_MULTITOUCH;
@@ -385,19 +377,33 @@ Return Value:
 
     //
     // Report the count
+    // We're sending touches using hybrid mode with 5 fingers in our
+    // report descriptor. The first report must indicate the
+    // total count of touch fingers detected by the digitizer.
+    // The remaining reports must indicate 0 for the count.
+    // The first report will have the TouchesReported integer set to 0
+    // The others will have it set to something else.
     //
-	(*TouchesReported) = fingersToReport;
-	HidReport->ContactCount = (UCHAR) fingersToReport;
+    if (*TouchesReported == 0)
+    {
+        HidReport->ContactCount = (UCHAR)TouchesTotal;
+    }
+    else
+    {
+        HidReport->ContactCount = 0;
+    }
 
 	//
 	// Only five fingers supported yet
 	//
-	for (currentlyReporting = 0; currentlyReporting < fingersToReport; currentlyReporting++)
+	for (currentFingerIndex = 0; currentFingerIndex < fingersToReport; currentFingerIndex++)
 	{
-		HidReport->Contacts[currentlyReporting].ContactID = (UCHAR)currentlyReporting;
+        int currentlyReporting = Cache->FingerDownOrder[*TouchesReported];
+
+		HidReport->Contacts[currentFingerIndex].ContactID = (UCHAR)currentlyReporting;
 		SctatchX = (USHORT)Cache->FingerSlot[currentlyReporting].x;
 		ScratchY = (USHORT)Cache->FingerSlot[currentlyReporting].y;
-		HidReport->Contacts[currentlyReporting].Confidence = 1;
+		HidReport->Contacts[currentFingerIndex].Confidence = 1;
 
 		//
 		// Perform per-platform x/y adjustments to controller coordinates
@@ -407,14 +413,15 @@ Return Value:
 			&ScratchY,
 			Props);
 
-		HidReport->Contacts[currentlyReporting].X = SctatchX;
-		HidReport->Contacts[currentlyReporting].Y = ScratchY;
+		HidReport->Contacts[currentFingerIndex].X = SctatchX;
+		HidReport->Contacts[currentFingerIndex].Y = ScratchY;
 
 		if (Cache->FingerSlot[currentlyReporting].fingerStatus)
 		{
-			HidReport->Contacts[currentlyReporting].TipSwitch = FINGER_STATUS;
+			HidReport->Contacts[currentFingerIndex].TipSwitch = FINGER_STATUS;
 		}
 
+        (*TouchesReported)++;
 	}
 }
 
@@ -524,9 +531,16 @@ Return Value:
         ControllerContext->TouchesTotal);
 
     //
-    // We now report all at once
+    // Update the caller if we still have outstanding touches to report
     //
-	*PendingTouches = FALSE;
+    if (ControllerContext->TouchesReported < ControllerContext->TouchesTotal)
+    {
+        *PendingTouches = TRUE;
+    }
+    else
+    {
+        *PendingTouches = FALSE;
+    }
 
 exit:
     
